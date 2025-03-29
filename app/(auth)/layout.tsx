@@ -1,8 +1,10 @@
 import React from 'react'
 
-const layout = () => {
+const layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
-    <div>layout</div>
+    <div className='h-full'>
+      {children}
+    </div>
   )
 }
 
