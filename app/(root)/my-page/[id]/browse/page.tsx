@@ -15,7 +15,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   return (
     <>
       <CategoryHeader id={id} />
-      <ItemHeader id={id} type='browse' />
+      <ItemHeader id={id} />
       <BrowseSection items={items} categoryId={id}/>
     </>
   )
