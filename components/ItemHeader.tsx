@@ -1,4 +1,4 @@
-import { BookOpen, ListTree, PenLine, Plus } from 'lucide-react'
+import { BookOpen, ListTree, Plus } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 
@@ -23,11 +23,6 @@ const ItemHeader = ({ id, type }: { id: string, type?: string }) => {
           <Plus width={16} height={16}/>
           <span className='ml-2 text-sm font-medium'>暗記アイテム作成</span>
         </Link>
-        <Link href={`/my-page/${id}/edit`} className='cursor-pointer flex items-center justify-center hover:bg-slate-100 px-3 py-2 rounded-lg'>
-          <PenLine width={16} height={16}/>
-          <span className='ml-2 text-sm font-medium'>暗記アイテム編集</span>
-        </Link>
-        {/* TODO 削除 */}
       </div>
       }
     </div>
