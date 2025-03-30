@@ -16,7 +16,7 @@ const SidebarCategories = () => {
         {categories.filter((item: Category) => item.pin).map((item: Category) => (
           <SidebarMenuItem key={item.id}>
             <SidebarMenuButton asChild>
-              <Link href={'/my-page/' + item.id} className="flex justify-between">
+              <Link href={'/my-page/' + item.id + '/study-now'} className="flex justify-between">
                 <span className="flex items-center">
                   {/* TODO 3点リーダー */}
                   <span className="ml-2">{item.name}</span>
