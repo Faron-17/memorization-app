@@ -29,7 +29,7 @@ const SidebarComponent = () => {
       </SidebarHeader>
       <SidebarContent className='px-2'>
         <SidebarCategories />
-        <AlertComponent triggerText='カテゴリー登録' title='カテゴリー登録' description='新規登録するカテゴリー名を入れてください' defaultData='' id='' />
+        <AlertComponent type='create' triggerText='カテゴリー登録' title='カテゴリー登録' description='新規登録するカテゴリー名を入れてください' />
       </SidebarContent>
       <SidebarFooter>
         <SidebarUser />
