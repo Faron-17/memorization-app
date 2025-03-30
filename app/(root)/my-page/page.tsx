@@ -18,7 +18,7 @@ const page = () => {
           {
             categories.map((item: Category) => (
               <li key={item.id}>
-                <Link href={'/my-page/' + item.id} className="flex justify-between gap-2 rounded-lg border p-3 text-left text-md transition-all hover:bg-accent cursor-pointer w-full h-12 border-slate-500">
+                <Link href={'/my-page/' + item.id + '/study-now'} className="flex justify-between gap-2 rounded-lg border p-3 text-left text-md transition-all hover:bg-accent cursor-pointer w-full h-12 border-slate-500">
                   {/* TODO 3点リーダー */}
                   <span>{item.name}</span>
                   {/* TODO 計算 */}
