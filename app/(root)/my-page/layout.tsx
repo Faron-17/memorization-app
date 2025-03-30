@@ -1,5 +1,6 @@
 import SidebarComponent from "@/components/SidebarComponent";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/sonner"
 
 export default function RootLayout({
   children,
@@ -11,6 +12,7 @@ export default function RootLayout({
       <SidebarComponent />
       <SidebarInset>
         {children}
+        <Toaster />
       </SidebarInset>
     </SidebarProvider>
   );
