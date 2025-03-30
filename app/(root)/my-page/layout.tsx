@@ -1,5 +1,5 @@
 import SidebarComponent from "@/components/SidebarComponent";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function RootLayout({
   children,
@@ -10,6 +10,7 @@ export default function RootLayout({
     <SidebarProvider>
       <SidebarComponent />
       <SidebarInset>
+        <SidebarTrigger className="-ml-1 m-4 cursor-pointer" />
         {children}
       </SidebarInset>
     </SidebarProvider>
