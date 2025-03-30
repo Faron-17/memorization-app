@@ -11,7 +11,7 @@ import SidebarUser from '@/components/SidebarUser'
 
 const SidebarComponent = () => {
   return (
-    <Sidebar>
+    <Sidebar variant="inset">
       <SidebarHeader>
         <SidebarMenu>
           <Link href='/my-page'>
