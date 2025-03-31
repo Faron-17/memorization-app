@@ -1,8 +1,18 @@
 import React from 'react'
 
-const page = () => {
+import CategoryHeader from '@/components/CategoryHeader'
+import ItemHeader from '@/components/ItemHeader'
+import CreateEditSection from '@/components/CreateEditSection'
+
+const page = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params
+
   return (
-    <div>page</div>
+    <>
+      <CategoryHeader id={id} />
+      <ItemHeader id={id} />
+      <CreateEditSection id={id} />
+    </>
   )
 }
 
