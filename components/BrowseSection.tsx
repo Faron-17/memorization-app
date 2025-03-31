@@ -38,7 +38,7 @@ const BrowseSection = ({ items, categoryId }: { items: Item[], categoryId: strin
             <p className='pl-4'>{items[order].answer}</p>
           </div>
           <div className='flex self-end'>
-            <Link href={`/my-page/${categoryId}/edit?${items[order].id}`} className='cursor-pointer flex items-center justify-center hover:bg-slate-100 px-3 py-2 rounded-lg'>
+            <Link href={`/my-page/${categoryId}/edit/${items[order].id}/`} className='cursor-pointer flex items-center justify-center hover:bg-slate-100 px-3 py-2 rounded-lg'>
               <PenLine width={16} height={16}/>
               <span className='ml-2 text-sm font-medium'>暗記アイテム編集</span>
             </Link>
