@@ -1,15 +1,22 @@
 import React from 'react'
-// import { useRouter } from 'next/router';
 
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import AlertComponent from '@/components/AlertComponent'
 import { Category } from '@/lib/definitions';
+import { fetchCategories } from '@/lib/actions/root/category/action';
 
-// デモデータ
-import { categories } from '@/constants/placeholder-data';
 
-const CategoryHeader = ({id}: {id: string}) => {
-  const category = categories.filter((item: Category) => item.id === id)[0]
+const CategoryHeader = async ({id}: {id: string}) => {
+  // TODO 型定義要確認
+  const categories: Category[] | null = await fetchCategories();
+  const category = categories ? categories.filter((item: Category) => item.id === id)[0]
+                    : {
+                      id: '',
+                      name: '',
+                      pin: false,
+                      created_at: new Date,
+                      updated_at: new Date,
+                    }
 
   return (
     <div className='flex h-16 shrink-0 items-center border-b px-4 justify-between'>
