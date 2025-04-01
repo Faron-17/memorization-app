@@ -5,15 +5,17 @@ import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, Sideba
 import { Category } from '@/lib/definitions'
 import { Badge } from '@/components/ui/badge'
 
-// デモデータ
-import { categories } from '@/constants/placeholder-data'
+import { fetchCategories } from '@/lib/actions/root/category/action'
 
-const SidebarCategories = () => {
+const SidebarCategories = async () => {
+  // TODO 型定義要確認
+  const categories: Category[] | null = await fetchCategories();
+  
   return (
     <SidebarGroup>
       <SidebarGroupLabel>カテゴリー</SidebarGroupLabel>
       <SidebarMenu>
-        {categories.filter((item: Category) => item.pin).map((item: Category) => (
+        {categories && categories.filter((item: Category) => item.pin).map((item: Category) => (
           <SidebarMenuItem key={item.id}>
             <SidebarMenuButton asChild>
               <Link href={'/my-page/' + item.id + '/study-now'} className="flex justify-between">
@@ -23,7 +25,7 @@ const SidebarCategories = () => {
                 </span>
                 {/* TODO 計算 */}
                 <Badge>
-                  {item.count}
+                  0
                 </Badge>
               </Link>
             </SidebarMenuButton>

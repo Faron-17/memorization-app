@@ -1,8 +1,9 @@
 export type Category = {
   id: string,
   name: string,
-  count: number,
   pin: boolean,
+  created_at: Date,
+  updated_at: Date,
 }
 
 export type Item = {
