@@ -7,8 +7,10 @@ import { SidebarTrigger } from '@/components/ui/sidebar'
 import { fetchCategories } from '@/lib/actions/root/category/action'
 
 const page = async () => {
-  // TODO 型定義要確認
-  const categories: Category[] | null = await fetchCategories();
+  const categories = await fetchCategories();
+
+  // TODO バッジ取得
+  // const allItems = await fetchAllItems();
 
   return (
     <>

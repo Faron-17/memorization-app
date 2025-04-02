@@ -7,16 +7,8 @@ import { fetchCategories } from '@/lib/actions/root/category/action';
 
 
 const CategoryHeader = async ({id}: {id: string}) => {
-  // TODO 型定義要確認
-  const categories: Category[] | null = await fetchCategories();
-  const category = categories ? categories.filter((item: Category) => item.id === id)[0]
-                    : {
-                      id: '',
-                      name: '',
-                      pin: false,
-                      created_at: new Date,
-                      updated_at: new Date,
-                    }
+  const categories = await fetchCategories();
+  const category = categories.filter((item: Category) => item.id === id)[0]
 
   return (
     <div className='flex h-16 shrink-0 items-center border-b px-4 justify-between'>

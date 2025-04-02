@@ -8,8 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { fetchCategories } from '@/lib/actions/root/category/action'
 
 const SidebarCategories = async () => {
-  // TODO 型定義要確認
-  const categories: Category[] | null = await fetchCategories();
+  const categories = await fetchCategories();
   
   return (
     <SidebarGroup>

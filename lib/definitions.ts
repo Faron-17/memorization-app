@@ -11,7 +11,8 @@ export type Item = {
   category_id: string,
   title: string,
   answer: string,
+  count: number,
   created_at: Date,
   updated_at: Date,
-  count: number,
+  memorized_at: Date,
 }

@@ -1,8 +1,28 @@
+import { Item } from "@/lib/definitions";
 import { supabase } from "@/lib/supabase";
+import { calculateMemoItemForBadge } from "@/lib/utils";
 
-// TODO 型定義、エラーハンドリング確認
-export const fetchItems = async ({ category_id }: { category_id: string }) => {
-  const items = await supabase.from("items").select('*').eq('category_id', category_id);
+export const fetchAllItems = async () => {
+  try {
+    const items = await supabase.from("items").select('*');
 
-  return items.data;
+    return items.data as Item[];
+
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Database error');
+  }
+};
+
+export const fetchItems = async ({ id }: { id: string }) => {
+  try {
+    const items = await supabase.from("items").select('*').eq('category_id', id);
+    const total = await calculateMemoItemForBadge(items.data as Item[])
+
+    return { items: items.data as Item[], total };
+
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Database error');
+  }
 };
