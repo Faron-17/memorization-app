@@ -30,15 +30,17 @@ import {
 } from "@/components/ui/card"
 import { useRouter } from "next/navigation"
 import { Item } from "@/lib/definitions"
+import { createItem } from "@/lib/actions/root/item/action"
+import { toast } from "sonner"
 
 const formSchema = z.object({
-  id: z.string(),
   category_id: z.string(),
-  title: z.string().min(2).max(50),
-  answer: z.string().min(2).max(50),
+  title: z.string().min(2).max(300),
+  answer: z.string().min(2).max(10000),
+  count: z.number(),
   created_at: z.date(),
   updated_at: z.date(),
-  count: z.number(),
+  memorized_at: z.date(),
 })
 
 const CreateEditSection = ({id, item }: {id: string, item?: Item}) => {
@@ -46,21 +48,27 @@ const CreateEditSection = ({id, item }: {id: string, item?: Item}) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: item ? item : {
-      id: '',
       category_id: id,
       title: '',
       answer: '',
+      count: 0,
       created_at: new Date,
       updated_at: new Date,
-      count: 0,
-    },
+      memorized_at: new Date,
+    } as Item,
   })
   const title = form.watch("title")
   const answer = form.watch("answer")
  
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
-    router.push(`/my-page/${id}/browse`)
+  const onSubmit = async (item: z.infer<typeof formSchema>) => {
+    const { error } = await createItem({item});
+
+    if(!error) {
+      toast('暗記アイテムを作成しました。')
+      router.push(`/my-page/${id}/browse`)
+    } else {
+      toast('エラー')
+    }
   }
 
   return (
