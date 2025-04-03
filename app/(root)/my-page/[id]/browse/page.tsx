@@ -3,14 +3,11 @@ import React from 'react'
 import CategoryHeader from '@/components/CategoryHeader'
 import ItemHeader from '@/components/ItemHeader'
 import BrowseSection from '@/components/BrowseSection'
-
-// デモデータ
-import { items } from '@/constants/placeholder-data'
+import { fetchItems } from '@/lib/actions/root/item/action'
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params
-  
-  {/* TODO fetch data by id */}
+  const { items } = await fetchItems({id})
 
   return (
     <>
