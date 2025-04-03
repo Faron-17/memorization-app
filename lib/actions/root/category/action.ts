@@ -25,3 +25,15 @@ export const fetchCategories = async () => {
     throw new Error('Database error');
   }
 };
+
+export const fetchCategory = async ({id}: {id: string}) => {
+  try {
+    const { data, error } = await supabase.from("categories").select('*').eq('id', id);
+
+    return { data, error };
+
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Database error');
+  }
+};
