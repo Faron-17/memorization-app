@@ -26,3 +26,13 @@ export const fetchItems = async ({ id }: { id: string }) => {
     throw new Error('Database error');
   }
 };
+
+export const createItem = async ({ item }: {item: Omit<Item, 'id'>}) => {    
+  try {
+    const { data, error } =  await supabase.from("items").insert(item)
+    return { data, error }
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Database error');
+  }
+}
