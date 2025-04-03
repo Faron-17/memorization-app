@@ -30,45 +30,59 @@ import {
 } from "@/components/ui/card"
 import { useRouter } from "next/navigation"
 import { Item } from "@/lib/definitions"
-import { createItem } from "@/lib/actions/root/item/action"
+import { createItem, updateItem } from "@/lib/actions/root/item/action"
 import { toast } from "sonner"
 
 const formSchema = z.object({
-  category_id: z.string(),
   title: z.string().min(2).max(300),
   answer: z.string().min(2).max(10000),
-  count: z.number(),
-  created_at: z.date(),
-  updated_at: z.date(),
-  memorized_at: z.date(),
 })
 
-const CreateEditSection = ({id, item }: {id: string, item?: Item}) => {
+const CreateEditSection = ({id, itemId, item }: {id: string, itemId?: string, item?: Pick<Item, 'title' | 'answer'>}) => {
+  const type: 'edit' | 'create' = item ? 'edit': 'create';
+  console.log(type)
+
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: item ? item : {
-      category_id: id,
+    defaultValues: item ? 
+    {
+      title: item.title,
+      answer: item.answer,
+    } as Omit<Item, 'id'>
+    :
+    {
       title: '',
       answer: '',
-      count: 0,
-      created_at: new Date,
-      updated_at: new Date,
-      memorized_at: new Date,
-    } as Item,
+    } as Omit<Item, 'id'>
   })
   const title = form.watch("title")
   const answer = form.watch("answer")
  
   const onSubmit = async (item: z.infer<typeof formSchema>) => {
-    const { error } = await createItem({item});
+    if(type === 'create') {
+      const { error } = await createItem({item, id});
 
-    if(!error) {
-      toast('暗記アイテムを作成しました。')
-      router.push(`/my-page/${id}/browse`)
-    } else {
-      toast('エラー')
-    }
+      if(!error) {
+        toast('暗記アイテムを作成しました。')
+        router.push(`/my-page/${id}/browse`)
+      } else {
+        toast('エラー')
+      }
+    } else if(type === 'edit') {
+      if(itemId === undefined) {
+        toast('エラー')
+      } else {
+        const { error } = await updateItem({title: item.title, answer: item.answer, itemId});
+        if(!error) {
+          toast('暗記アイテムを編集しました。')
+          router.push(`/my-page/${id}/browse`)
+        } else {
+          console.log(error)
+          toast('エラー')
+        }
+      }
+    } 
   }
 
   return (
@@ -118,7 +132,7 @@ const CreateEditSection = ({id, item }: {id: string, item?: Item}) => {
                 </ReactMarkdown>
               </div>
               <Separator />
-              <div className='py-3 prose prose-slate lg:prose-lg'>
+              <div className='py-3'>
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]} 
                   rehypePlugins={[rehypeSanitize]}
