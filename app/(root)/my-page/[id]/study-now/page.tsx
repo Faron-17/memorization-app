@@ -32,7 +32,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
               <span className='ml-3'>参照画面へ</span>
             </Link>
           </div>
-        : <MemoSection items={items} />
+        : <MemoSection items={items} total={total} />
       }
     </>
   )
