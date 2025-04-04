@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { PenLine, Trash2 } from 'lucide-react';
+import { PenLine } from 'lucide-react';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
+import AlertComponent from '@/components/AlertComponent';
 
 const BrowseSection = ({ items, categoryId }: { items: Item[], categoryId: string }) => {
   const [ order, setOrder ] = useState(0);
@@ -37,7 +37,7 @@ const BrowseSection = ({ items, categoryId }: { items: Item[], categoryId: strin
               remarkPlugins={[remarkGfm]} 
               rehypePlugins={[rehypeSanitize]}
             >
-              {items[order].title}
+              {items[order] ? items[order].title : items[0].title}
             </ReactMarkdown>
           </CardTitle>
         </CardHeader>
@@ -47,30 +47,15 @@ const BrowseSection = ({ items, categoryId }: { items: Item[], categoryId: strin
               remarkPlugins={[remarkGfm]} 
               rehypePlugins={[rehypeSanitize]}
             >
-              {items[order].answer}
+              {items[order] ? items[order].answer : items[0].answer}
             </ReactMarkdown>
           </div>
           <div className='flex self-end'>
-            <Link href={`/my-page/${categoryId}/edit/${items[order].id}/`} className='cursor-pointer flex items-center justify-center hover:bg-slate-100 px-3 py-2 rounded-lg'>
+            <Link href={`/my-page/${categoryId}/edit/${items[order] ? items[order].id : items[0].id}/`} className='cursor-pointer flex items-center justify-center hover:bg-slate-100 px-3 py-2 rounded-lg'>
               <PenLine width={16} height={16}/>
               <span className='ml-2 text-sm font-medium'>暗記アイテム編集</span>
             </Link>
-            <AlertDialog>
-              <AlertDialogTrigger className='cursor-pointer flex items-center justify-center hover:bg-slate-100 px-3 py-2 rounded-lg'>
-                <Trash2 width={16} height={16} />
-                <span className='ml-2 text-sm font-medium'>暗記アイテム削除</span>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle className='text-md font-medium'>削除しますか？</AlertDialogTitle>
-                  <AlertDialogDescription className='text-md font-medium'>「{items[order].title}」</AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel className='cursor-pointer'>キャンセル</AlertDialogCancel>
-                  <AlertDialogAction className='cursor-pointer'>削除する</AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+            <AlertComponent type='delete' triggerText='暗記アイテム削除' title='暗記アイテム削除' description={`本当に「${items[order] ? items[order].title : items[0].title}」を削除しますか？`} id='' itemId={items[order] ? items[order].id : items[0].id} />
           </div>
         </CardContent>
       </Card>
