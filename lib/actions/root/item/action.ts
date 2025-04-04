@@ -42,7 +42,7 @@ export const fetchItem = async ({ id }: { id: string }) => {
 
 export const createItem = async ({ item, id }: {item: Pick<Item, 'title' | 'answer'>, id: string}) => {   
   try {
-    const { data, error } =  await supabase.from("items").insert(Object.assign({}, item, {id: id}))
+    const { data, error } =  await supabase.from("items").insert(Object.assign({}, item, {category_id: id}))
     return { data, error }
   } catch (error) {
     console.error('Database Error:', error);
@@ -53,6 +53,16 @@ export const createItem = async ({ item, id }: {item: Pick<Item, 'title' | 'answ
 export const updateItem = async ({ title, answer, itemId }: {title: string, answer: string, itemId: string}) => {    
   try {
     const { data, error } =  await supabase.from("items").update({title: title, answer: answer, updated_at: new Date}).eq('id', itemId);
+    return { data, error }
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Database error');
+  }
+}
+
+export  const deleteItem = async ({ itemId }: { itemId: string }) => {
+  try {
+    const { data, error } = await supabase.from("items").delete().eq('id', itemId)
     return { data, error }
   } catch (error) {
     console.error('Database Error:', error);
