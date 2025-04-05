@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import { useState } from "react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -39,8 +40,8 @@ const formSchema = z.object({
 })
 
 const CreateEditSection = ({id, itemId, item }: {id: string, itemId?: string, item?: Pick<Item, 'title' | 'answer'>}) => {
+  const [ isDisabled, setIsDisabled ] = useState(false)
   const type: 'edit' | 'create' = item ? 'edit': 'create';
-  console.log(type)
 
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -60,13 +61,16 @@ const CreateEditSection = ({id, itemId, item }: {id: string, itemId?: string, it
   const answer = form.watch("answer")
  
   const onSubmit = async (item: z.infer<typeof formSchema>) => {
+    setIsDisabled(true)
     if(type === 'create') {
       const { error } = await createItem({item, id});
 
       if(!error) {
         toast('暗記アイテムを作成しました。')
         router.push(`/my-page/${id}/browse`)
+        router.refresh()
       } else {
+        setIsDisabled(false)
         toast('エラー')
       }
     } else if(type === 'edit') {
@@ -78,6 +82,7 @@ const CreateEditSection = ({id, itemId, item }: {id: string, itemId?: string, it
           toast('暗記アイテムを編集しました。')
           router.push(`/my-page/${id}/browse`)
         } else {
+          setIsDisabled(false)
           console.log(error)
           toast('エラー')
         }
@@ -115,7 +120,7 @@ const CreateEditSection = ({id, itemId, item }: {id: string, itemId?: string, it
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-28 cursor-pointer">Submit</Button>
+              <Button type="submit" className="w-28 cursor-pointer" disabled={isDisabled}>登録</Button>
             </form>
           </Form>
         </ResizablePanel>
