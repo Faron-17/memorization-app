@@ -4,6 +4,9 @@ import React from 'react'
 import { PenLine, Plus, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import rehypeSanitize from 'rehype-sanitize'
 
 import {
   AlertDialog,
@@ -60,7 +63,14 @@ const AlertComponent = ({type, triggerText, title, description, defaultData='', 
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
-          <AlertDialogDescription>{description}</AlertDialogDescription>
+          <AlertDialogDescription>
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]} 
+              rehypePlugins={[rehypeSanitize]}
+            >
+            {description}
+            </ReactMarkdown>
+          </AlertDialogDescription>
         </AlertDialogHeader>
         {type !== 'delete' && <Input defaultValue={defaultData} />}
         {type !== 'delete' && 
