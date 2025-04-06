@@ -5,9 +5,9 @@ import Link from 'next/link'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton } from '@/components/ui/sidebar'
 
 import CheckIcon from '@/app/check.png'
-import AlertComponent from '@/components/AlertComponent'
 import SidebarCategories from '@/components/SidebarCategories'
 import SidebarUser from '@/components/SidebarUser'
+import { DialogComponent } from './DialogComponent'
 
 const SidebarComponent = () => {
   return (
@@ -29,7 +29,7 @@ const SidebarComponent = () => {
       </SidebarHeader>
       <SidebarContent className='px-2'>
         <SidebarCategories />
-        <AlertComponent type='create' triggerText='カテゴリー登録' title='カテゴリー登録' description='新規登録するカテゴリー名を入れてください' />
+        <DialogComponent type='create' triggerText='カテゴリー登録' description='新規登録するカテゴリー名を入れてください' />
       </SidebarContent>
       <SidebarFooter>
         <SidebarUser />
