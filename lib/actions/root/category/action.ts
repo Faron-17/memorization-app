@@ -50,3 +50,13 @@ export const createCategory = async ({item}: {item: Pick<Category, 'name' | 'pin
     throw new Error('Database error');
   }
 }
+
+export const updateCategory = async ({id, item}: {id: string, item: Pick<Category, 'name' | 'pin'>}) => {
+  try {
+    const { data, error } =  await supabase.from("categories").update({name: item.name, pin: item.pin, updated_at: new Date}).eq('id', id);
+    return { data, error }
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Database error');
+  }
+}
