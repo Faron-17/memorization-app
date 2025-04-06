@@ -16,6 +16,7 @@ const SidebarCategories = async () => {
       <SidebarGroupLabel>カテゴリー</SidebarGroupLabel>
       <SidebarMenu>
         {categories.map((item: Category) => {
+          if(!item.pin) return
           const totalNumber = total.filter((tl) => tl.id === item.id)[0].total
           return (
             <SidebarMenuItem key={item.id}>

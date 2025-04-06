@@ -37,3 +37,16 @@ export const fetchCategory = async ({id}: {id: string}) => {
     throw new Error('Database error');
   }
 };
+
+export const createCategory = async ({item}: {item: Pick<Category, 'name' | 'pin'>}) => {
+  try {
+    const { error } = await supabase.from("categories").insert(item)
+    if (error) {
+      throw new Error(error.message);
+    }
+    return { error };
+  } catch(error) {
+    console.error('Database Error:', error);
+    throw new Error('Database error');
+  }
+}
