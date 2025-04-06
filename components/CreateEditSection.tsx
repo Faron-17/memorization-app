@@ -114,7 +114,7 @@ const CreateEditSection = ({id, itemId, item }: {id: string, itemId?: string, it
                 render={({ field }) => (
                   <FormItem className="h-full w-full">
                     <FormControl>
-                      <Textarea placeholder="answer" {...field} />
+                      <Textarea placeholder="解答" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -129,12 +129,7 @@ const CreateEditSection = ({id, itemId, item }: {id: string, itemId?: string, it
           <Card className='h-full py-0'>
             <CardContent className='px-3'>
               <div className='font-medium min-h-8 break-words py-3'>
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]} 
-                  rehypePlugins={[rehypeSanitize]}
-                >
-                  {title}
-                </ReactMarkdown>
+                {title}
               </div>
               <Separator />
               <div className='py-3'>

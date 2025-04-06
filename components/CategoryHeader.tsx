@@ -5,6 +5,7 @@ import AlertComponent from '@/components/AlertComponent'
 import { Category } from '@/lib/definitions';
 import { fetchCategories } from '@/lib/actions/root/category/action';
 import { Badge } from '@/components/ui/badge';
+import { DialogComponent } from '@/components/DialogComponent';
 
 
 const CategoryHeader = async ({id}: {id: string}) => {
@@ -21,7 +22,7 @@ const CategoryHeader = async ({id}: {id: string}) => {
         </Badge>
       </div>
       <div className='flex gap-4'>
-        <AlertComponent type='edit' triggerText='カテゴリー名編集' title='カテゴリー名編集' description='' defaultData={category.name} id={id} pin={category.pin} />
+        <DialogComponent type='edit' triggerText='カテゴリー名編集' name={category.name} id={id} pin={category.pin} description='編集' />
         <AlertComponent type='delete' triggerText='カテゴリー削除' title='カテゴリー削除' description={`本当に「${category.name}」を削除しますか？カテゴリー内の全ての暗記アイテムも消えます。`} id='' />
       </div>
     </div>
