@@ -60,3 +60,14 @@ export const updateCategory = async ({id, item}: {id: string, item: Pick<Categor
     throw new Error('Database error');
   }
 }
+
+export const deleteCategory = async ({id}: {id: string}) => {
+  try {
+    const { data, error: categoryError } = await supabase.from("categories").delete().eq('id', id)
+
+    return { data, categoryError }
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Database error');
+  }
+}
