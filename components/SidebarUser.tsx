@@ -22,11 +22,36 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { useRouter } from "next/navigation"
+import { supabase } from "@/lib/supabase"
+import { useState, useEffect } from "react"
+import { Session } from "@supabase/supabase-js"
+import { useRouter } from 'next/navigation'
 
 const SidebarUser = () => {
   const { isMobile } = useSidebar()
+  const [session, setSession] = useState<Session | null>(null)
   const router = useRouter()
+
+  useEffect(() => {
+    const currentSession = supabase.auth.getSession()
+    currentSession.then(({ data }) => {
+      setSession(data.session)
+    })
+
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session)
+
+      if (!session) {
+        router.push('/')
+      }
+    })
+
+    return () => listener.subscription.unsubscribe()
+  }, [router])
+
+  const signOut = async () => {
+    await supabase.auth.signOut()
+  }
 
   return (
     <SidebarMenu>
@@ -37,14 +62,13 @@ const SidebarUser = () => {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground cursor-pointer"
             >
-              {/* TODO */}
               <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                <AvatarImage src={session ? session.user.user_metadata.avatar_url : "https://github.com/shadcn.png"} alt="@shadcn" />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">test</span>
-                <span className="truncate text-xs">test@mail.com</span>
+                <span className="truncate font-semibold">{session ? session.user.user_metadata?.full_name || session.user.email : ''}</span>
+                <span className="truncate text-xs">{session ? session.user.email : ''}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -56,7 +80,7 @@ const SidebarUser = () => {
             sideOffset={4}
           >
             {/* TODO sign out */}
-            <DropdownMenuItem onClick={() => router.push('/sign-in')} className="cursor-pointer">
+            <DropdownMenuItem onClick={signOut} className="cursor-pointer">
               <LogOut />
               Log out
             </DropdownMenuItem>
