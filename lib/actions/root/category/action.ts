@@ -1,10 +1,19 @@
 import { Category } from "@/lib/definitions";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase/client";
 import { fetchItems } from "@/lib/actions/root/item/action";
+import { createClient } from "@/lib/supabase/server";
 
 export const fetchCategories = async () => {
   try {
-    const { data, error } = await supabase.from("categories").select('*');
+    const supabaseServer = await createClient()
+
+    const { data: userData, error: userError } = await supabaseServer.auth.getUser()
+  
+    if (userError) {
+      throw new Error(userError.message);
+    }
+
+    const { data, error } = await supabase.from("categories").select('*').eq('user_id', userData.user.id);
 
     if (error) {
       throw new Error(error.message);

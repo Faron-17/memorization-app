@@ -1,5 +1,5 @@
 import { Item } from "@/lib/definitions";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase/client";
 import { calculateMemoItemForBadge } from "@/lib/utils";
 
 export const fetchAllItems = async () => {

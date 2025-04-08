@@ -22,7 +22,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { supabase } from "@/lib/supabase"
+import { supabase } from "@/lib/supabase/client"
 import { useState, useEffect } from "react"
 import { Session } from "@supabase/supabase-js"
 import { useRouter } from 'next/navigation'
@@ -79,10 +79,9 @@ const SidebarUser = () => {
             align="end"
             sideOffset={4}
           >
-            {/* TODO sign out */}
             <DropdownMenuItem onClick={signOut} className="cursor-pointer">
               <LogOut />
-              Log out
+              ログアウト
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
