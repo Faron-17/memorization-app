@@ -29,6 +29,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+import { supabase } from "@/lib/supabase/client"
 
 interface Props {
   type: 'create' | 'edit',
@@ -69,7 +70,15 @@ export function DialogComponent({type, triggerText, name, description, pin, id='
     setIsDisabled(true)
     form.reset()
     if(type === 'create') {
-      const { error } = await createCategory({item})
+      const { data: userData, error: userError } = await supabase.auth.getUser()
+      if(userError || userData === null) {
+        setIsDisabled(false)
+        toast(`エラー`)
+        return
+      }
+
+      const { error } = await createCategory({item: Object.assign(item, {"user_id": userData.user.id })})
+
       if(error) {
         setIsDisabled(false)
         toast(`エラー`)
@@ -80,6 +89,7 @@ export function DialogComponent({type, triggerText, name, description, pin, id='
         toast(`${item.name}を作成しました`)
         router.refresh()
       }
+
     } else if(type === 'edit') {
       const { error } = await updateCategory({id, item})
       if(error) {

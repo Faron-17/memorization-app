@@ -1,9 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase/client'
 import { Session } from '@supabase/supabase-js' 
 import { useRouter } from 'next/navigation'
+import { FcGoogle } from 'react-icons/fc';
+import { Button } from '@/components/ui/button'
 
 export default function Home() {
   const [session, setSession] = useState<Session | null>(null)
@@ -33,20 +35,17 @@ export default function Home() {
     })
   }
 
-  const signOut = async () => {
-    await supabase.auth.signOut()
-  }
-
   return (
     <main className='flex justify-center items-center mt-[25%]'>
-      {!session ? (
-        <button onClick={signInWithGoogle} className='cursor-pointer'>Sign in with Google</button>
-      ) : (
-        <div className='flex flex-col justify-center items-center'>
-          <p>こんにちは, {session.user.user_metadata?.full_name || session.user.email}さん</p>
-          <button onClick={signOut}>Sign out</button>
-        </div>
-      )}
+      {!session && 
+        <Button
+          onClick={signInWithGoogle}
+          className="cursor-pointer flex items-center justify-center px-6 py-2 bg-white border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none pr-6"
+        >
+          <FcGoogle className="w-6 h-6 mr-2" />
+          <span>Googleでログイン</span>
+        </Button>
+      }
     </main>
   )
 }
