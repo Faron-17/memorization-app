@@ -4,6 +4,11 @@ import Link from 'next/link'
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar'
 import { Badge } from '@/components/ui/badge'
 import { DialogComponent } from '@/components/DialogComponent'
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
 
 import { fetchCategories } from '@/lib/actions/root/category/action'
 import { Category } from '@/lib/definitions'
@@ -27,9 +32,16 @@ const SidebarCategories = async () => {
                     {/* TODO 3点リーダー */}
                     <span className="ml-2">{item.name}</span>
                   </span>
-                  <Badge>
-                    {totalNumber}
-                  </Badge>
+                  <HoverCard>
+                    <HoverCardTrigger asChild>
+                      <Badge>
+                        {totalNumber}
+                      </Badge>
+                    </HoverCardTrigger> 
+                    <HoverCardContent className="py-2">
+                      <p className='text-sm'>今日覚える暗記アイテムは{totalNumber}件です</p>
+                    </HoverCardContent>
+                  </HoverCard>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
