@@ -21,13 +21,15 @@ export const fetchCategories = async () => {
 
     const categories = data as Category[]
 
+    const pinnedCategoriesCount = categories.filter((item) => item.pin).length
+
     const total = await Promise.all(categories.map(async (item) => {
       const id = item.id;
       const { total } = await fetchItems({ id });
       return { id: id, total: total };
     }));
   
-    return { categories, total };
+    return { categories, total, pinnedCategoriesCount };
 
   } catch (error) {
     console.error('Database Error:', error);

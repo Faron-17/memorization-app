@@ -9,7 +9,7 @@ import { DialogComponent } from '@/components/DialogComponent';
 
 
 const CategoryHeader = async ({id}: {id: string}) => {
-  const { categories, total } = await fetchCategories();
+  const { categories, total, pinnedCategoriesCount } = await fetchCategories();
   const category = categories.filter((item: Category) => item.id === id)[0]
   const totalNumber = total.filter((tl) => tl.id === id)[0].total
   return (
@@ -22,7 +22,7 @@ const CategoryHeader = async ({id}: {id: string}) => {
         </Badge>
       </div>
       <div className='flex gap-4'>
-        <DialogComponent type='edit' triggerText='カテゴリー名編集' name={category.name} id={id} pin={category.pin} description='編集' />
+        <DialogComponent type='edit' triggerText='カテゴリー名編集' name={category.name} id={id} pin={category.pin} description='編集' pinnedCount={pinnedCategoriesCount} />
         <AlertComponent triggerText='カテゴリー削除' title='カテゴリー削除' description={`本当に「${category.name}」を削除しますか？カテゴリー内の全ての暗記アイテムも消えます。この操作は元に戻せません。`} id={category.id} />      </div>
     </div>
   )
