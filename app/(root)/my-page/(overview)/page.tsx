@@ -1,11 +1,15 @@
 import React from 'react'
-
+import { Metadata } from 'next';
 import Link from 'next/link'
 import { Category } from '@/lib/definitions'
 import { Badge } from '@/components/ui/badge'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { fetchCategories } from '@/lib/actions/root/category/action'
 import { DialogComponent } from '@/components/DialogComponent'
+
+export const metadata: Metadata = {
+  title: 'マイページ',
+};
 
 const page = async () => {
   const { categories, total } = await fetchCategories();
@@ -31,7 +35,6 @@ const page = async () => {
                   return (
                   <li key={item.id}>
                     <Link href={'/my-page/' + item.id + '/study-now'} className="flex justify-between gap-2 rounded-lg border p-3 text-left text-md transition-all hover:bg-accent cursor-pointer w-full h-12 border-slate-500">
-                      {/* TODO 3点リーダー */}
                       <span>{item.name}</span>
                       <Badge>
                         {totalNumber}

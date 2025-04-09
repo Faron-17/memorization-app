@@ -1,9 +1,14 @@
 import React, { Suspense } from 'react'
 import Link from 'next/link'
 import { Undo2 } from 'lucide-react'
+import { Metadata } from 'next'
 
 import { Skeleton } from '@/components/ui/skeleton'
 import ConfettiComponent from '@/components/ConfettiComponent'
+
+export const metadata: Metadata = {
+  title: '達成',
+};
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params
