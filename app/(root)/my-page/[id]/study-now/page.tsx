@@ -10,6 +10,7 @@ import NoMemoItem from '@/components/NoMemoItem'
 
 import { fetchItems } from '@/lib/actions/root/item/action'
 import { fetchCategory } from '@/lib/actions/root/category/action'
+import { measure } from '@/lib/utils'
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params
@@ -20,6 +21,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   }
 
   const { items, total } = await fetchItems({id})
+  const filteredItems = items.filter((item) => measure(item.count, item.memorized_at))
 
   return (
     <>
@@ -35,7 +37,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
               <span className='ml-2 text-sm font-medium'>暗記アイテム参照</span>
             </Link>
           </div>
-        : <MemoSection items={items} total={total} />
+        : <MemoSection items={filteredItems} total={total} />
       }
     </>
   )

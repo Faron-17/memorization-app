@@ -102,7 +102,7 @@ const CreateEditSection = ({id, itemId, item }: {id: string, itemId?: string, it
                 render={({ field }) => (
                   <FormItem className="mb-3 w-full">
                     <FormControl>
-                      <Textarea placeholder="title" {...field} />
+                      <Textarea placeholder="タイトル" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

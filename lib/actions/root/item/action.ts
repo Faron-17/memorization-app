@@ -1,6 +1,7 @@
 import { Item } from "@/lib/definitions";
 import { supabase } from "@/lib/supabase/client";
 import { calculateMemoItemForBadge } from "@/lib/utils";
+import { PostgrestError } from "@supabase/supabase-js";
 
 export const fetchAllItems = async () => {
   try {
@@ -17,7 +18,6 @@ export const fetchAllItems = async () => {
 export const fetchItems = async ({ id }: { id: string }) => {
   try {
     const items = await supabase.from("items").select('*').eq('category_id', id);
-
     const total = !items ? 0: await calculateMemoItemForBadge(items.data as Item[])
 
     return { items: items.data as Item[], total };
@@ -74,6 +74,23 @@ export  const deleteAllItemsByCategory = async ({ id }: { id: string }) => {
   try {
     const { error } = await supabase.from("items").delete().eq('category_id', id)
     return { error }
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Database error');
+  }
+}
+
+export const memorizedItem = async ({memorizedItems}: {memorizedItems: Pick<Item, 'id' | 'count'>[]}) => {   
+  try {
+    const res = await Promise.all(memorizedItems.map(async (item) => {
+      const { error } = await supabase.from("items").update({memorized_at: new Date, count: item.count}).eq('id', item.id);
+      return { error };
+    }));
+
+    const isSuccesses = (item: {error: PostgrestError | null }) => {
+      return item.error === null
+    }
+    return res.every(isSuccesses)
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Database error');

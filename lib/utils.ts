@@ -14,12 +14,13 @@ export function calculateMemoItemForBadge(items: Item[]) {
   return total
 }
 
-function measure(count: number, memorized_at: Date) {
+export function measure(count: number, memorized_at: Date) {
   const today = new Date();
   let result = false;
   const addDays = (date: Date, days: number) => {
-    const memoDate = new Date(date); 
+    const memoDate = new Date(date);
     memoDate.setDate(memoDate.getDate() + days);
+    memoDate.setHours(memoDate.getHours() + 9);
     return memoDate;
   }
 
