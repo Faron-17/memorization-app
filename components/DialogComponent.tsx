@@ -152,7 +152,7 @@ export function DialogComponent({type, triggerText, name, description, pin, id='
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
-                      disabled={pinnedCount >= MAX_PINED}
+                      disabled={type ==='edit' && pinnedCount === MAX_PINED ? false : pinnedCount >= MAX_PINED}
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
@@ -160,7 +160,7 @@ export function DialogComponent({type, triggerText, name, description, pin, id='
                       サイドバーにピン留め
                     </FormLabel>
                     {
-                      pinnedCount >= MAX_PINED && <p className="text-xs mb-3">※ ピン留めできるのは最大${MAX_PINED}件までです</p>
+                      type ==='edit' && pinnedCount === MAX_PINED ? "" : pinnedCount >= MAX_PINED && <p className="text-xs mb-3">※ ピン留めできるのは最大{MAX_PINED}件までです</p>
                     }
                   </div>
                   </FormItem>
