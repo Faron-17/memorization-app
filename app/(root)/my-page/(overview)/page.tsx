@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 
 const page = async () => {
   const { categories, total } = await fetchCategories();
+  const data = categories.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
 
   return (
     <>
@@ -30,7 +31,7 @@ const page = async () => {
             <h2 className='text-2xl font-semibold dark:text-white'>カテゴリー</h2>
             <ul className="flex flex-col space-y-4 mt-4">
               {
-                categories.map((item: Category) => {
+                data.map((item: Category) => {
                   const totalNumber = total.filter((tl) => tl.id === item.id)[0].total
                   return (
                   <li key={item.id}>

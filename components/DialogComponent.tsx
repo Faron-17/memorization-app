@@ -45,10 +45,9 @@ interface Props {
 }
 
 const formSchema = z.object({
-  name: z.string().min(2).max(300),
+  name: z.string().min(2, { message: "2文字以上で入力してください。" }).max(10, { message: "10文字以内で入力してください。" }),
   pin: z.boolean()
 })
-
 
 export function DialogComponent({type, triggerText, name, description, pin, id='', isHome=false, pinnedCount=0}: Props) {
   const [open, setOpen] = useState(false);
@@ -130,45 +129,45 @@ export function DialogComponent({type, triggerText, name, description, pin, id='
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem className="mb-3 w-full">
-                    <FormControl>
-                      <Input placeholder="カテゴリー名" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="pin"
-                render={({ field }) => (
-                <FormItem className="mb-3 w-full flex mt-5">
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem className="mb-3 w-full">
                   <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                      disabled={type ==='edit' && pinnedCount === MAX_PINED ? false : pinnedCount >= MAX_PINED}
-                    />
+                    <Input placeholder="カテゴリー名" {...field} />
                   </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel className={cn(pinnedCount >= MAX_PINED && "text-gray-400")}>
-                      サイドバーにピン留め
-                    </FormLabel>
-                    {
-                      type ==='edit' && pinnedCount === MAX_PINED ? "" : pinnedCount >= MAX_PINED && <p className="text-xs mb-3">※ ピン留めできるのは最大{MAX_PINED}件までです</p>
-                    }
-                  </div>
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" className="w-28 cursor-pointer" disabled={isDisabled}>登録</Button>
-            </form>
-          </Form>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="pin"
+              render={({ field }) => (
+              <FormItem className="mb-3 w-full flex mt-5">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    disabled={type ==='edit' && pinnedCount === MAX_PINED ? false : pinnedCount >= MAX_PINED}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel className={cn(pinnedCount >= MAX_PINED && "text-gray-400")}>
+                    サイドバーにピン留め
+                  </FormLabel>
+                  {
+                    type ==='edit' && pinnedCount === MAX_PINED ? "" : pinnedCount >= MAX_PINED && <p className="text-xs mb-3">※ ピン留めできるのは最大{MAX_PINED}件までです</p>
+                  }
+                </div>
+                </FormItem>
+              )}
+            />
+            <Button type="submit" className="w-28 cursor-pointer" disabled={isDisabled}>登録</Button>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   )
