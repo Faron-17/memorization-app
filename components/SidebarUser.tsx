@@ -67,7 +67,10 @@ const SidebarUser = () => {
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">{session ? session.user.user_metadata?.full_name || session.user.email : ''}</span>
+                {
+                  session &&
+                  <span className="truncate font-semibold">{session.user.user_metadata?.full_name ? session.user.user_metadata?.full_name : session.user.user_metadata.display_name}</span>
+                }
                 <span className="truncate text-xs">{session ? session.user.email : ''}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />

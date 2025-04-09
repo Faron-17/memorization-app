@@ -30,6 +30,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { supabase } from "@/lib/supabase/client"
+import { cn } from "@/lib/utils"
 
 interface Props {
   type: 'create' | 'edit',
@@ -38,6 +39,7 @@ interface Props {
   description: string,
   id?: string,
   pin?: boolean,
+  isHome?: boolean,
 }
 
 const formSchema = z.object({
@@ -46,7 +48,7 @@ const formSchema = z.object({
 })
 
 
-export function DialogComponent({type, triggerText, name, description, pin, id=''}: Props) {
+export function DialogComponent({type, triggerText, name, description, pin, id='', isHome=false}: Props) {
   const [open, setOpen] = useState(false);
   const [ isDisabled, setIsDisabled ] = useState(false)
   const router = useRouter();
@@ -108,7 +110,7 @@ export function DialogComponent({type, triggerText, name, description, pin, id='
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" className="cursor-pointer flex justify-center items-center py-2 hover:bg-gray-100 rounded-lg px-4">
+        <Button variant={isHome ? "default" : "ghost"} className={cn("cursor-pointer flex justify-center items-center py-2 rounded-lg px-4", !isHome ? 'hover:bg-gray-100': '!pr-5')}>
           {
             type === 'create' ?
             <Plus width={16} height={16} />
