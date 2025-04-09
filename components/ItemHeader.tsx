@@ -3,8 +3,7 @@
 import { ArrowUpDown, BookOpen, Hourglass, ListTree, Plus } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
-import { usePathname } from 'next/navigation'
-import { toast } from 'sonner'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -12,13 +11,20 @@ import { Button } from '@/components/ui/button'
 const ItemHeader = ({ id }: { id: string }) => {
   const pathname = usePathname();
   const pageType = pathname.split('/').pop()
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const queryCreatedAt = searchParams.get('createdAt')
+  const queryCount = searchParams.get('count')
 
-  {/* TODO ソート/toast */}
-  const onHandleSort = (sortType: string) => {
-    toast("Event has been created", {
-      description: "Sunday, December 03, 2023 at 9:00 AM",
-    })
-    console.log(sortType)
+  const onHandleSort = (sortType: 'createdAt' | 'count') => {
+    const value = sortType === 'createdAt' ? queryCreatedAt : queryCount
+    let query;
+    if(value === null || value === 'desc') {
+      query = new URLSearchParams({ [sortType]: 'asc'}).toString();
+    } else {
+      query = new URLSearchParams({ [sortType]: 'desc'}).toString();
+    }
+    router.push(`/my-page/${id}/browse?${query}`);
   }
 
   return (
@@ -39,16 +45,16 @@ const ItemHeader = ({ id }: { id: string }) => {
             <Button
               className='cursor-pointer h-6 px-3 py-1 text-sm'
               variant="ghost"
-              onClick={() => onHandleSort('sort1')}
+              onClick={() => onHandleSort('createdAt')}
             >
-              <Hourglass /><span>ソート1</span>
+              <Hourglass /><span>作成日時でソート</span>
             </Button>
             <Button
               className='cursor-pointer h-6 px-3 py-1 text-sm'
               variant="ghost"
-              onClick={() => onHandleSort('sort2')}
+              onClick={() => onHandleSort('count')}
             >
-              <ArrowUpDown /><span>ソート2</span>
+              <ArrowUpDown /><span>暗記回数でソート</span>
             </Button>
           </div>
         }

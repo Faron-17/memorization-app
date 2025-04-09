@@ -91,7 +91,7 @@ const CreateEditSection = ({id, itemId, item }: {id: string, itemId?: string, it
   }
 
   return (
-    <div className="p-6 h-full">
+    <div className="p-6 pt-0 h-full">
       <ResizablePanelGroup direction="horizontal" className=''>
         <ResizablePanel>
           <Form {...form}>
