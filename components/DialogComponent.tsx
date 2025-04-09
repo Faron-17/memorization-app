@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/form"
 import { supabase } from "@/lib/supabase/client"
 import { cn } from "@/lib/utils"
+import { MAX_PINED } from "@/constants"
 
 interface Props {
   type: 'create' | 'edit',
@@ -40,6 +41,7 @@ interface Props {
   id?: string,
   pin?: boolean,
   isHome?: boolean,
+  pinnedCount?: number,
 }
 
 const formSchema = z.object({
@@ -48,7 +50,7 @@ const formSchema = z.object({
 })
 
 
-export function DialogComponent({type, triggerText, name, description, pin, id='', isHome=false}: Props) {
+export function DialogComponent({type, triggerText, name, description, pin, id='', isHome=false, pinnedCount=0}: Props) {
   const [open, setOpen] = useState(false);
   const [ isDisabled, setIsDisabled ] = useState(false)
   const router = useRouter();
@@ -150,12 +152,16 @@ export function DialogComponent({type, triggerText, name, description, pin, id='
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
+                      disabled={pinnedCount >= MAX_PINED}
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
-                    <FormLabel>
+                    <FormLabel className={cn(pinnedCount >= MAX_PINED && "text-gray-400")}>
                       サイドバーにピン留め
                     </FormLabel>
+                    {
+                      pinnedCount >= MAX_PINED && <p className="text-xs mb-3">※ ピン留めできるのは最大${MAX_PINED}件までです</p>
+                    }
                   </div>
                   </FormItem>
                 )}

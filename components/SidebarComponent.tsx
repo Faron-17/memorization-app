@@ -7,7 +7,6 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import CheckIcon from '@/app/check.png'
 import SidebarCategories from '@/components/SidebarCategories'
 import SidebarUser from '@/components/SidebarUser'
-import { DialogComponent } from './DialogComponent'
 
 const SidebarComponent = () => {
   return (
@@ -29,7 +28,6 @@ const SidebarComponent = () => {
       </SidebarHeader>
       <SidebarContent className='px-2'>
         <SidebarCategories />
-        <DialogComponent type='create' triggerText='カテゴリー登録' description='新規登録するカテゴリー名を入れてください' />
       </SidebarContent>
       <SidebarFooter>
         <SidebarUser />
