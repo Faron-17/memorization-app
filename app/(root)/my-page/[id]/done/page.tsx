@@ -5,6 +5,7 @@ import { Metadata } from 'next'
 
 import { Skeleton } from '@/components/ui/skeleton'
 import ConfettiComponent from '@/components/ConfettiComponent'
+import CategoryHeader from '@/components/CategoryHeader'
 
 export const metadata: Metadata = {
   title: '達成',
@@ -14,15 +15,18 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params
 
   return (
-    <div className='h-full flex flex-col justify-center items-center'>
-      <Suspense fallback={<Skeleton className='w-full h-full'/>}>
-        <ConfettiComponent />
-      </Suspense>
-      <p className='text-3xl font-bold'>You Done!</p>
-      <Link href={`/my-page/${id}/browse`} className='flex justify-center items-center mt-5 hover:bg-slate-100 px-5 py-2.5 rounded-md'>
-        <Undo2 />
-        <span className='ml-3'>Back to Home</span>
-      </Link>
+    <div>
+      <CategoryHeader id={id} />
+      <div className='h-full flex flex-col justify-center items-center mt-[20%]'>
+        <Suspense fallback={<Skeleton className='w-full h-full'/>}>
+          <ConfettiComponent />
+        </Suspense>
+        <p className='text-3xl font-bold'>暗記達成！</p>
+        <Link href={`/my-page/${id}/browse`} className='flex justify-center items-center mt-5 hover:bg-slate-100 px-5 py-2.5 rounded-md'>
+          <Undo2 />
+          <span className='ml-3'>参照ページに戻る</span>
+        </Link>
+      </div>
     </div>
   )
 }

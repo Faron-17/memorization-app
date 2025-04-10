@@ -27,24 +27,38 @@ const MemoSection = ({ items, total }: { items: Item[], total: number}) => {
     setIsVisibleAnswer(true)
   }, [order]);
 
-  const handleOnClick = async ({ isTerminated = false, isTomorrow = false } : { isTerminated?: boolean, isTomorrow?: boolean }) => {
-    if(isTomorrow) {
-      setOrder(order + 1)
-    } else {
-      const newItems = [...memorizedItems, { id: items[order].id, count: items[order].count + 1 }]
+  const handleOnClick = async ({ isTerminated, memoType } : { isTerminated: boolean, memoType: "pause" | "done" | "tomorrow" }) => {
+    const newItem = { id: items[order].id, count: items[order].count + 1 }
 
-      setMemorizedItems(newItems)
-      if(isTerminated || order === items.length - 1) {
-        setIsDisabled(true)
-        const isSuccesses = await memorizedItem({memorizedItems: newItems})
-        if(isSuccesses) {
-          setIsDisabled(false)
-          router.push('./done')
-        } else {
-          setIsDisabled(false)
-          toast('エラー')
-        }
+    if(memoType === 'pause') {
+      if(memorizedItems.length === 0) router.push('./done')
+      await finishMemorizing({data: memorizedItems})
+    } else if(memoType === 'done') {
+      if(isTerminated) {
+        await finishMemorizing({data: memorizedItems})
+      } else {
+        setOrder(order + 1)
+        setMemorizedItems([...memorizedItems, newItem])
       }
+    } else if(memoType === 'tomorrow') {
+      if(isTerminated) {
+        if(memorizedItems.length === 0) router.push('./done')
+        await finishMemorizing({data: [...memorizedItems]})
+      } else {
+        setOrder(order + 1)
+        setMemorizedItems([...memorizedItems])
+      }
+    }
+  }
+
+  const finishMemorizing = async ({ data }: { data: Pick<Item, "id" | "count">[] }) => {
+    setIsDisabled(true)
+    const isSuccesses = await memorizedItem({memorizedItems: data})
+    if(isSuccesses) {
+      router.push('./done')
+    } else {
+      setIsDisabled(false)
+      toast('エラー')
     }
   }
 
@@ -61,14 +75,21 @@ const MemoSection = ({ items, total }: { items: Item[], total: number}) => {
       </div>
       <section className={cn(started ? 'flex flex-col' : 'hidden', 'w-full px-6 h-full')}>
         <Card className='w-full h-full'>
-          <CardHeader>
+          <CardHeader className='max-sm:px-4'>
             <CardTitle className='flex items-center'>
-              <BookOpen width={30} height={30} />
-              <p className='pl-4 w-full'>{items[order].title}</p> 
+              <BookOpen width={28} height={28} className='max-sm:hidden' />
+              <div className='pl-4 w-full max-sm:pl-0'>
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]} 
+                  rehypePlugins={[rehypeSanitize]}
+                >
+                {items[order].title}
+                </ReactMarkdown>
+              </div> 
             </CardTitle>
           </CardHeader>
-          <CardContent className={cn(isVisibleAnswer ? 'hidden' : 'flex')}>
-            <Lightbulb className='pr-4' width={42} height={42} />
+          <CardContent className={cn(isVisibleAnswer ? 'hidden' : 'flex max-sm:px-4')}>
+            <Lightbulb className='pr-4 w-fit max-sm:hidden' width={28} height={28} />
             <div className='w-full mark-down'>
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]} 
@@ -79,24 +100,26 @@ const MemoSection = ({ items, total }: { items: Item[], total: number}) => {
             </div>
           </CardContent>
         </Card>
-        <div className='flex justify-between my-6'>
-          <Button className='cursor-pointer' disabled={order === 0 || isDisabled} onClick={() => handleOnClickBack()}>
-            戻る
+        <div className='flex justify-between my-6 max-sm:flex-col-reverse'>
+          <Button variant='ghost' className='cursor-pointer flex max-sm:mt-3' onClick={() => handleOnClick({memoType: 'pause', isTerminated: true})} disabled={isDisabled}>
+            <CircleX />
+            中断する
           </Button>
-          <Button onClick={() => setIsVisibleAnswer(!isVisibleAnswer)} className='cursor-pointer' disabled={isDisabled}>
-            {isVisibleAnswer ? '解答を見る' : '解答を隠す'}
-          </Button>
-          <div className="flex space-x-3">
-            <Button className='cursor-pointer' onClick={() => handleOnClick({isTomorrow: true})} disabled={isDisabled}>
-              明日もう一度見る
+          <div className='flex justify-between max-sm:flex-col w-full sm:ml-3'>
+            <Button variant='secondary' className='cursor-pointer' disabled={order === 0 || isDisabled} onClick={() => handleOnClickBack()}>
+              戻る
             </Button>
-            <Button className='cursor-pointer' onClick={() => handleOnClick({})} disabled={isDisabled}>
-              覚えた
+            <Button onClick={() => setIsVisibleAnswer(!isVisibleAnswer)} className='cursor-pointer sm:ml-3 max-sm:mt-3' disabled={isDisabled}>
+              {isVisibleAnswer ? '解答を見る' : '解答を隠す'}
             </Button>
-            <Button variant='ghost' className='cursor-pointer flex' onClick={() => handleOnClick({isTerminated: true})} disabled={isDisabled}>
-              <CircleX />
-              中断する
-            </Button>
+            <div className='flex space-x-5 sm:ml-3 max-sm:mt-3 max-sm:justify-between'>
+              <Button className='cursor-pointer' onClick={() => handleOnClick({memoType: 'tomorrow', isTerminated: order === items.length - 1})} disabled={isDisabled}>
+                明日もう一度見る
+              </Button>
+              <Button className='cursor-pointer' onClick={() => handleOnClick({memoType: 'done', isTerminated: order === items.length - 1})} disabled={isDisabled}>
+                覚えた
+              </Button>
+            </div>
           </div>
         </div>
       </section>
