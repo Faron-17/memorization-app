@@ -1,8 +1,6 @@
 'use client'
 
 import React, { useState } from 'react'
-import { PenLine } from 'lucide-react';
-import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeSanitize from 'rehype-sanitize';
@@ -13,8 +11,8 @@ import { cn } from '@/lib/utils';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import AlertComponent from '@/components/AlertComponent';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import ItemsListForSmallView from '@/components/ItemsListForSmallView';
+import BrowseCardFooter from '@/components/BrowseCardFooter';
 
 const BrowseSection = ({ items, categoryId }: { items: Item[], categoryId: string }) => {
   const [ order, setOrder ] = useState(0);
@@ -43,6 +41,7 @@ const BrowseSection = ({ items, categoryId }: { items: Item[], categoryId: strin
                   </ReactMarkdown>
                 </span>
               </Button>
+              <ItemsListForSmallView item={item}/>
             </li>
           ))}
         </ul>
