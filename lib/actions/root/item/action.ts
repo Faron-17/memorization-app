@@ -42,7 +42,7 @@ export const fetchItem = async ({ id }: { id: string }) => {
 
 export const createItem = async ({ item, id }: {item: Pick<Item, 'title' | 'answer'>, id: string}) => {   
   try {
-    const { data, error } =  await supabase.from("items").insert(Object.assign({}, item, {category_id: id}))
+    const { data, error } =  await supabase.from("items").insert(Object.assign({}, item, {category_id: id}, {updated_at: new Date}))
     return { data, error }
   } catch (error) {
     console.error('Database Error:', error);
