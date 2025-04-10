@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Memorization App
 
-## Getting Started
+このアプリは暗記アプリです。暗記したいものをマークダウンで書いて、今日覚える暗記が何かを教えてくれます。適切な復習時期を効率的に復習することができます※。React、Next.js、TypeScript、Supabase を使用し、認証機能・CRUDを実装しています。
+<br />
+※ エビングハウスの忘却曲線を採用
 
-First, run the development server:
+## デモページ
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+https://memorization-app.vercel.app
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### デモ用認証情報
+メールアドレス: testuser@gml.com
+<br />
+パスワード: testuser
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 機能一覧
+- マイページ：登録した暗記カテゴリーを参照するページです
+  - 暗記カテゴリー追加
+  - 暗記カテゴリー選択
+  - ログアウト
+- 暗記アイテム学習ページ：選択した暗記カテゴリーに含まれる暗記アイテムを暗記するページです
+  - 中断機能
+  - 解答表示・非表示機能
+  - 戻る機能
+  - 明日もう一度見る機能
+  - 覚えた機能
+  - カテゴリー名変更機能
+  - カテゴリー削除機能
+- 暗記アイテム参照ページ：今まで登録した暗記アイテムを一覧で参照するページです
+  - ソート機能・更新日毎
+  - ソート機能・覚えた回数毎
+  - 暗記アイテム編集機能
+  - 暗記アイテム削除機能
+  - 暗記アイテム作成機能
+  - カテゴリー名変更機能
+  - カテゴリー削除機能
+- 暗記アイテム作成・編集ページ
+  - マークダウンで作成・編集機能
+  - 登録機能
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 技術一覧
+### フロントエンド
+- Next.js 14（App Router 使用）
+- React 19
+- Tailwind CSS（UI スタイリング）
+- Shadcn/ui（UI コンポーネント）
+- React Hook Form
 
-## Learn More
+### バックエンド
+- Next.js API Routes
+- Supabase（PostgreSQL）
 
-To learn more about Next.js, take a look at the following resources:
+### 認証
+- Supabase（メール認証・Google認証）
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### ホスト
+- Vercel
+  
+### 型
+- zod（スキーマバリデーション）
+- TypeScript
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### DB設計
+- 参照
+<br />
+https://github.com/Faron-17/memorization-app/blob/main/doc/erd.md
