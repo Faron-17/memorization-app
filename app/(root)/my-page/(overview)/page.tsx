@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: 'マイページ',
 };
 
+export const dynamic = 'force-dynamic';
+
 const page = async () => {
   const { categories, total } = await fetchCategories();
   const data = categories.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
