@@ -121,4 +121,16 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  .mark-down hr {
+    @apply my-4;
+  }
+
+  .mark-down ul {
+    @apply list-disc list-inside;
+  }
+
+  .mark-down ol {
+    @apply list-decimal list-inside;
+  }
 }

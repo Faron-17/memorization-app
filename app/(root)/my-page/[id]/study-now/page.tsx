@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { Undo2 } from 'lucide-react'
 import { notFound } from 'next/navigation'
+import { Metadata } from 'next';
 
 import CategoryHeader from '@/components/CategoryHeader'
 import ItemHeader from '@/components/ItemHeader'
@@ -11,6 +12,10 @@ import NoMemoItem from '@/components/NoMemoItem'
 import { fetchItems } from '@/lib/actions/root/item/action'
 import { fetchCategory } from '@/lib/actions/root/category/action'
 import { measure } from '@/lib/utils'
+
+export const metadata: Metadata = {
+  title: '暗記',
+};
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params

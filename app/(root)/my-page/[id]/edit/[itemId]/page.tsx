@@ -7,6 +7,11 @@ import CreateEditSection from '@/components/CreateEditSection'
 
 import { fetchItem } from '@/lib/actions/root/item/action'
 import { fetchCategory } from '@/lib/actions/root/category/action'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: '編集',
+};
 
 const page = async ({ params }: { params: Promise<{ id: string, itemId: string }> }) => {
   const { id, itemId } = await params

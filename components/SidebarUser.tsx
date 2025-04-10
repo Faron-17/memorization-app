@@ -63,8 +63,8 @@ const SidebarUser = () => {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground cursor-pointer"
             >
               <Avatar>
-                <AvatarImage src={session ? session.user.user_metadata.avatar_url : "https://github.com/shadcn.png"} alt="@shadcn" />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarImage src={session ? session.user.user_metadata.avatar_url : ""} alt="アイコン" />
+                <AvatarFallback className="bg-gray-300"></AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 {

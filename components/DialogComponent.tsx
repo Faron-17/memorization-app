@@ -45,10 +45,9 @@ interface Props {
 }
 
 const formSchema = z.object({
-  name: z.string().min(2).max(300),
+  name: z.string().min(2, { message: "2文字以上で入力してください。" }).max(10, { message: "10文字以内で入力してください。" }),
   pin: z.boolean()
 })
-
 
 export function DialogComponent({type, triggerText, name, description, pin, id='', isHome=false, pinnedCount=0}: Props) {
   const [open, setOpen] = useState(false);
@@ -112,63 +111,63 @@ export function DialogComponent({type, triggerText, name, description, pin, id='
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant={isHome ? "default" : "ghost"} className={cn("cursor-pointer flex justify-center items-center py-2 rounded-lg px-4", !isHome ? 'hover:bg-gray-100': '!pr-5')}>
+        <Button variant={isHome ? "default" : "ghost"} className={cn("cursor-pointer flex justify-center items-center py-2 rounded-lg px-4 max-lg:px-2", !isHome ? 'hover:bg-gray-100': '!pr-5')}>
           {
             type === 'create' ?
             <Plus width={16} height={16} />
             :
             <PenLine width={16} height={16} />
           }
-          <span className="ml-2 text-sm font-medium">{triggerText}</span>
+          <span className="ml-2 text-sm font-medium max-lg:hidden">{triggerText}</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle></DialogTitle>
+          <DialogTitle className="text-lg font-semibold">{triggerText}</DialogTitle>
           <DialogDescription>
             {description}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem className="mb-3 w-full">
-                    <FormControl>
-                      <Input placeholder="カテゴリー名" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="pin"
-                render={({ field }) => (
-                <FormItem className="mb-3 w-full flex mt-5">
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem className="mb-3 w-full">
                   <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                      disabled={pinnedCount >= MAX_PINED}
-                    />
+                    <Input placeholder="カテゴリー名" {...field} />
                   </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel className={cn(pinnedCount >= MAX_PINED && "text-gray-400")}>
-                      サイドバーにピン留め
-                    </FormLabel>
-                    {
-                      pinnedCount >= MAX_PINED && <p className="text-xs mb-3">※ ピン留めできるのは最大${MAX_PINED}件までです</p>
-                    }
-                  </div>
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" className="w-28 cursor-pointer" disabled={isDisabled}>登録</Button>
-            </form>
-          </Form>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="pin"
+              render={({ field }) => (
+              <FormItem className="mb-3 w-full flex mt-5">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    disabled={type ==='edit' && pinnedCount === MAX_PINED ? false : pinnedCount >= MAX_PINED}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel className={cn(pinnedCount >= MAX_PINED && "text-gray-400")}>
+                    サイドバーにピン留め
+                  </FormLabel>
+                  {
+                    type ==='edit' && pinnedCount === MAX_PINED ? "" : pinnedCount >= MAX_PINED && <p className="text-xs mb-3">※ ピン留めできるのは最大{MAX_PINED}件までです</p>
+                  }
+                </div>
+                </FormItem>
+              )}
+            />
+            <Button type="submit" className="w-28 cursor-pointer" disabled={isDisabled}>登録</Button>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   )

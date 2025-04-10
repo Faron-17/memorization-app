@@ -132,7 +132,7 @@ const CreateEditSection = ({id, itemId, item }: {id: string, itemId?: string, it
                 {title}
               </div>
               <Separator />
-              <div className='py-3'>
+              <div className='py-3 mark-down'>
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]} 
                   rehypePlugins={[rehypeSanitize]}

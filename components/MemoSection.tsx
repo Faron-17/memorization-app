@@ -69,7 +69,7 @@ const MemoSection = ({ items, total }: { items: Item[], total: number}) => {
           </CardHeader>
           <CardContent className={cn(isVisibleAnswer ? 'hidden' : 'flex')}>
             <Lightbulb className='pr-4' width={42} height={42} />
-            <div className='w-full'>
+            <div className='w-full mark-down'>
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]} 
                 rehypePlugins={[rehypeSanitize]}

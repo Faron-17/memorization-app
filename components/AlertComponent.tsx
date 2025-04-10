@@ -74,9 +74,9 @@ const AlertComponent = ({triggerText, title, description, id='', itemId=''}: Pro
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger className='cursor-pointer flex justify-center items-center py-2 hover:bg-gray-100 rounded-lg px-4'>
+      <AlertDialogTrigger className='cursor-pointer flex justify-center items-center py-2 hover:bg-gray-100 rounded-lg px-4 max-lg:px-2'>
         <Trash2 width={16} height={16} />
-        <span className="ml-2 text-sm font-medium">{triggerText}</span>
+        <span className="ml-2 text-sm font-medium max-lg:hidden">{triggerText}</span>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
