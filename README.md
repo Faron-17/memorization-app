@@ -6,7 +6,7 @@
 
 ## デモページ
 
-https://memorization-app.vercel.app
+https://memorization-app-today.vercel.app
 
 ### デモ用認証情報
 メールアドレス: testuser@gml.com
