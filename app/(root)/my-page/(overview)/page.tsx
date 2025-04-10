@@ -18,7 +18,7 @@ const page = async () => {
   return (
     <>
       <SidebarTrigger className="-ml-1 m-4 cursor-pointer" />
-      <main className="px-24 h-full">
+      <main className="px-24 h-full max-sm:px-6">
         {categories.length === 0 ? 
           <div className='flex flex-col justify-center items-center mt-36'>
             <h2 className='text-3xl font-semibold'>ようこそ、Memorization Appへ</h2>
@@ -28,7 +28,7 @@ const page = async () => {
           </div>
           :
           <div>
-            <h2 className='text-2xl font-semibold dark:text-white'>カテゴリー</h2>
+            <h2 className='text-2xl font-semibold dark:text-white max-lg:text-lg'>カテゴリー</h2>
             <ul className="flex flex-col space-y-4 mt-4">
               {
                 data.map((item: Category) => {

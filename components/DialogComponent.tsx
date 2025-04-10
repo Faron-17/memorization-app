@@ -111,14 +111,14 @@ export function DialogComponent({type, triggerText, name, description, pin, id='
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant={isHome ? "default" : "ghost"} className={cn("cursor-pointer flex justify-center items-center py-2 rounded-lg px-4", !isHome ? 'hover:bg-gray-100': '!pr-5')}>
+        <Button variant={isHome ? "default" : "ghost"} className={cn("cursor-pointer flex justify-center items-center py-2 rounded-lg px-4 max-lg:px-2", !isHome ? 'hover:bg-gray-100': '!pr-5')}>
           {
             type === 'create' ?
             <Plus width={16} height={16} />
             :
             <PenLine width={16} height={16} />
           }
-          <span className="ml-2 text-sm font-medium">{triggerText}</span>
+          <span className="ml-2 text-sm font-medium max-lg:hidden">{triggerText}</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
