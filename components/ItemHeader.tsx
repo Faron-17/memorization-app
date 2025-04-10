@@ -13,11 +13,11 @@ const ItemHeader = ({ id }: { id: string }) => {
   const pageType = pathname.split('/').pop()
   const router = useRouter();
   const searchParams = useSearchParams();
-  const queryCreatedAt = searchParams.get('createdAt')
+  const queryUpdatedAt = searchParams.get('updatedAt')
   const queryCount = searchParams.get('count')
 
-  const onHandleSort = (sortType: 'createdAt' | 'count') => {
-    const value = sortType === 'createdAt' ? queryCreatedAt : queryCount
+  const onHandleSort = (sortType: 'updatedAt' | 'count') => {
+    const value = sortType === 'updatedAt' ? queryUpdatedAt : queryCount
     let query;
     if(value === null || value === 'desc') {
       query = new URLSearchParams({ [sortType]: 'asc'}).toString();
@@ -45,9 +45,9 @@ const ItemHeader = ({ id }: { id: string }) => {
             <Button
               className='cursor-pointer h-6 px-3 py-1 text-sm'
               variant="ghost"
-              onClick={() => onHandleSort('createdAt')}
+              onClick={() => onHandleSort('updatedAt')}
             >
-              <Hourglass /><span>作成日時でソート</span>
+              <Hourglass /><span className='max-lg:hidden'>更新日時でソート</span>
             </Button>
             <Button
               className='cursor-pointer h-6 px-3 py-1 text-sm'

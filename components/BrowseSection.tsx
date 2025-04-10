@@ -17,18 +17,18 @@ import BrowseCardFooter from '@/components/BrowseCardFooter';
 const BrowseSection = ({ items, categoryId }: { items: Item[], categoryId: string }) => {
   const [ order, setOrder ] = useState(0);
   const searchParams = useSearchParams();
-  const queryCreatedAt = searchParams.get('createdAt')
+  const queryCreatedAt = searchParams.get('updatedAt')
   const queryCount = searchParams.get('count')
   const data = 
-    queryCreatedAt === 'asc' ? items.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()) : 
-    queryCreatedAt === 'desc' ? items.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()) :
+    queryCreatedAt === 'asc' ? items.sort((a, b) => new Date(a.updated_at).getTime() - new Date(b.updated_at).getTime()) : 
+    queryCreatedAt === 'desc' ? items.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()) :
     queryCount === 'asc' ? items.sort((a, b) => a.count - b.count) : 
-    queryCount === 'desc' ? items.sort((a, b) => b.count - a.count) : items;
+    queryCount === 'desc' ? items.sort((a, b) => b.count - a.count) : items.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
 
   return (
-    <section className='grid grid-cols-3 gap-6 px-4 pb-4'>
-      <ScrollArea className="h-[calc(100vh-10rem)] w-full rounded-md border">
-        <ul className='flex flex-col space-y-2 col-span-1'>
+    <section className='grid grid-cols-3 gap-6 px-4 pb-4 max-sm:flex'>
+      <div className='h-[calc(100vh-10rem)] overflow-y-scroll overflow-x-hidden'>
+        <ul className='flex flex-col space-y-2 col-span-1 w-full'>
           {data.map((item: Item, index: number) => (
             <li key={index} className=''>
               <Button variant='ghost' onClick={() => setOrder(index)} className={cn('w-full cursor-pointer flex justify-start', order === index ? 'bg-gray-100' : '')}>
@@ -45,8 +45,8 @@ const BrowseSection = ({ items, categoryId }: { items: Item[], categoryId: strin
             </li>
           ))}
         </ul>
-      </ScrollArea>
-      <Card className='w-full h-full col-span-2'>
+      </div>
+      <Card className='w-full h-full col-span-2 max-sm:hidden'>
         <CardHeader>
           <CardTitle className='flex items-center'>
             <ReactMarkdown
