@@ -123,7 +123,7 @@ export function DialogComponent({type, triggerText, name, description, pin, id='
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle></DialogTitle>
+          <DialogTitle className="text-lg font-semibold">{triggerText}</DialogTitle>
           <DialogDescription>
             {description}
           </DialogDescription>

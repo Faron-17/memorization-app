@@ -31,8 +31,8 @@ const BrowseSection = ({ items, categoryId }: { items: Item[], categoryId: strin
         <ul className='flex flex-col space-y-2 col-span-1 w-full'>
           {data.map((item: Item, index: number) => (
             <li key={index} className=''>
-              <Button variant='ghost' onClick={() => setOrder(index)} className={cn('w-full cursor-pointer flex justify-start', order === index ? 'bg-gray-100' : '')}>
-                <span className='overflow-hidden text-clip'>
+              <Button variant='ghost' onClick={() => setOrder(index)} className={cn('w-full cursor-pointer flex justify-start max-sm:hidden', order === index ? 'bg-gray-100' : '')}>
+                <span className='overflow-hidden text-clip mark-down'>
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm]} 
                     rehypePlugins={[rehypeSanitize]}
@@ -48,7 +48,7 @@ const BrowseSection = ({ items, categoryId }: { items: Item[], categoryId: strin
       </div>
       <Card className='w-full h-full col-span-2 max-sm:hidden'>
         <CardHeader>
-          <CardTitle className='flex items-center'>
+          <CardTitle className='flex items-center mark-down'>
             <ReactMarkdown
               remarkPlugins={[remarkGfm]} 
               rehypePlugins={[rehypeSanitize]}
@@ -58,7 +58,7 @@ const BrowseSection = ({ items, categoryId }: { items: Item[], categoryId: strin
           </CardTitle>
         </CardHeader>
         <CardContent className='flex flex-col justify-between h-full'>
-          <div className='flex flex-col'>
+          <div className='flex flex-col mark-down'>
             <ReactMarkdown
               remarkPlugins={[remarkGfm]} 
               rehypePlugins={[rehypeSanitize]}
@@ -66,13 +66,7 @@ const BrowseSection = ({ items, categoryId }: { items: Item[], categoryId: strin
               {data[order] ? data[order].answer : data[0].answer}
             </ReactMarkdown>
           </div>
-          <div className='flex self-end'>
-            <Link href={`/my-page/${categoryId}/edit/${data[order] ? data[order].id : data[0].id}/`} className='cursor-pointer flex items-center justify-center hover:bg-slate-100 px-3 py-2 rounded-lg'>
-              <PenLine width={16} height={16}/>
-              <span className='ml-2 text-sm font-medium'>暗記アイテム編集</span>
-            </Link>
-            <AlertComponent triggerText='暗記アイテム削除' title='暗記アイテム削除' description={`本当に「${data[order] ? data[order].title : data[0].title}」を削除しますか？`} id='' itemId={data[order] ? data[order].id : data[0].id} />
-          </div>
+          <BrowseCardFooter categoryId={categoryId} data={data} order={order} />
         </CardContent>
       </Card>
     </section>
