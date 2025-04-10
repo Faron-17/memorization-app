@@ -16,11 +16,10 @@ const SidebarComponent = () => {
           <Link href='/my-page'>
             <SidebarMenuButton className='cursor-pointer py-6'>
               <div className="flex aspect-square items-center justify-center rounded-lg text-sidebar-primary-foreground">
-                <Image src={ CheckIcon } alt='' width={16} height={16} />
+                <Image src={ CheckIcon } alt='' width={18} height={18} />
               </div>
-              <div className="grid flex-1 text-left text-sm leading-tight">
+              <div className="grid flex-1 text-left text-lg leading-tight">
                 <span className="truncate font-semibold">Memorization App</span>
-                <span className="truncate text-xs">Enterprise</span>
               </div>
             </SidebarMenuButton>
           </Link>
