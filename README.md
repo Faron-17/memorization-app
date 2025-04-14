@@ -2,10 +2,10 @@
 ![Next.js](https://img.shields.io/badge/Next.js-15-000000?logo=nextdotjs&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4-06B6D4?logo=tailwindcss&logoColor=white)
-![Vercel](https://img.shields.io/badge/Deploy-Vercel-000000?logo=vercel&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-Host-000000?logo=vercel&logoColor=white)
 ![Supabase](https://img.shields.io/badge/Supabase-Auth-3ECF8E?logo=supabase&logoColor=white)
 ![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?logo=supabase&logoColor=white)
-![shadcn/ui](https://img.shields.io/badge/UI-shadcn/ui-black)
+![shadcn/ui](https://img.shields.io/badge/Shadcn-UI-black)
 
 # Memorization App
 
