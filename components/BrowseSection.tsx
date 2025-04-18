@@ -27,7 +27,7 @@ const BrowseSection = ({ items, categoryId }: { items: Item[], categoryId: strin
 
   return (
     <section className='grid grid-cols-3 gap-6 px-4 pb-4 max-sm:flex'>
-      <div className='h-[calc(100vh-10rem)] overflow-y-scroll overflow-x-hidden'>
+      <div className='h-[calc(100vh-10.5rem)] overflow-y-scroll overflow-x-hidden'>
         <ul className='flex flex-col space-y-2 col-span-1 w-full'>
           {data.map((item: Item, index: number) => (
             <li key={index} className=''>
@@ -46,7 +46,7 @@ const BrowseSection = ({ items, categoryId }: { items: Item[], categoryId: strin
           ))}
         </ul>
       </div>
-      <Card className='w-full h-full col-span-2 max-sm:hidden'>
+      <Card className='w-full h-[calc(100vh-10.5rem)] col-span-2 max-sm:hidden'>
         <CardHeader>
           <CardTitle className='flex items-center mark-down'>
             <ReactMarkdown
@@ -57,14 +57,16 @@ const BrowseSection = ({ items, categoryId }: { items: Item[], categoryId: strin
             </ReactMarkdown>
           </CardTitle>
         </CardHeader>
-        <CardContent className='flex flex-col justify-between h-full'>
-          <div className='flex flex-col mark-down'>
-            <ReactMarkdown
-              remarkPlugins={[remarkGfm]} 
-              rehypePlugins={[rehypeSanitize]}
-            >
-              {data[order] ? data[order].answer : data[0].answer}
-            </ReactMarkdown>
+        <CardContent className='flex flex-col justify-between h-[calc(100%-2rem)]'>
+          <div className='flex h-[calc(100%-3rem)] overflow-y-auto'>
+            <div className='flex flex-col mark-down'>
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]} 
+                rehypePlugins={[rehypeSanitize]}
+              >
+                {data[order] ? data[order].answer : data[0].answer}
+              </ReactMarkdown>
+            </div>
           </div>
           <BrowseCardFooter categoryId={categoryId} data={data} order={order} />
         </CardContent>
