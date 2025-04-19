@@ -35,8 +35,8 @@ import { createItem, updateItem } from "@/lib/actions/root/item/action"
 import { toast } from "sonner"
 
 const formSchema = z.object({
-  title: z.string().min(2).max(300),
-  answer: z.string().min(2).max(10000),
+  title: z.string().min(2, { message: "2文字以上で入力してください。" }).max(300, { message: "300文字以内で入力してください。" }),
+  answer: z.string().min(2, { message: "2文字以上で入力してください。" }).max(10000, { message: "10000文字以内で入力してください。" }),
 })
 
 const CreateEditSection = ({id, itemId, item }: {id: string, itemId?: string, item?: Pick<Item, 'title' | 'answer'>}) => {

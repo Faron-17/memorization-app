@@ -30,7 +30,7 @@ const ItemsListForSmallView = ({ item }: {item: Item}) => {
             </ReactMarkdown>
           </Button>
         </DialogTrigger>
-        <DialogContent className="max-h-[calc(100%-2rem)] h-fit overflow-y-scroll flex flex-col justify-center pt-24 px-2.5">
+        <DialogContent className="max-h-[calc(100%-2rem)] h-fit overflow-y-scroll flex flex-col justify-center pt-12 px-2.5">
           <DialogHeader>
             <DialogTitle className='text-left'>
               <ReactMarkdown

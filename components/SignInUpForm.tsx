@@ -14,9 +14,9 @@ import { supabase } from '@/lib/supabase/client'
 import { toast } from 'sonner'
 
 const formSchema = z.object({
-  email: z.string().min(2).max(300),
-  password: z.string().min(2).max(10000),
-  displayName: z.string().max(300),
+  email: z.string().min(2, { message: "2文字以上で入力してください。" }).max(300, { message: "300文字以内で入力してください。" }),
+  password: z.string().min(2, { message: "2文字以上で入力してください。" }).max(100, { message: "100文字以内で入力してください。" }),
+  displayName: z.string().min(2, { message: "2文字以上で入力してください。" }).max(10, { message: "10文字以内で入力してください。" }),
 })
 
 const SignInUpForm = ({registerFlag}: {registerFlag: boolean}) => {
