@@ -129,12 +129,12 @@ export function DialogComponent({type, triggerText, name, description, pin, id='
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col items-center space-y-5">
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
-                <FormItem className="mb-3 w-full">
+                <FormItem className="w-full">
                   <FormControl>
                     <Input placeholder="カテゴリー名" {...field} />
                   </FormControl>
@@ -146,7 +146,7 @@ export function DialogComponent({type, triggerText, name, description, pin, id='
               control={form.control}
               name="pin"
               render={({ field }) => (
-              <FormItem className="mb-3 w-full flex mt-5">
+              <FormItem className="w-full flex mt-1">
                 <FormControl>
                   <Checkbox
                     checked={field.value}
