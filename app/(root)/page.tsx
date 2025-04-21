@@ -8,7 +8,8 @@ import { FcGoogle } from 'react-icons/fc';
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import SignInUpForm from '@/components/SignInUpForm'
+import SignUpForm from '@/components/SignUpForm';
+import SignInForm from '@/components/SignInForm';
 
 import { supabase } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
@@ -58,7 +59,9 @@ export default function Home() {
           <div className='flex items-center w-full'>
             <Separator className='flex-1' /><p className='px-5'>or</p><Separator className='flex-1' />
           </div>
-          <SignInUpForm registerFlag={registerFlag}/>
+          {
+            registerFlag ? <SignUpForm /> : <SignInForm />
+          } 
           <Button variant='ghost' className={cn('cursor-pointer hover:underline hover:bg-inherit', registerFlag ? 'hidden' : 'block')} onClick={() => setRegisterFlag(true)}>新規登録はこちら</Button>
           <Button variant='ghost' className={cn('cursor-pointer hover:underline hover:bg-inherit', registerFlag ? 'block' : 'hidden')} onClick={() => setRegisterFlag(false)}>ログインはこちら</Button>
         </Card>
