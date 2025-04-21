@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react'
+import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { z } from 'zod'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -14,13 +14,14 @@ import { supabase } from '@/lib/supabase/client'
 import { toast } from 'sonner'
 
 const formSchema = z.object({
-  email: z.string().min(2, { message: "2文字以上で入力してください。" }).max(300, { message: "300文字以内で入力してください。" }),
-  password: z.string().min(2, { message: "2文字以上で入力してください。" }).max(100, { message: "100文字以内で入力してください。" }),
-  displayName: z.string().min(2, { message: "2文字以上で入力してください。" }).max(10, { message: "10文字以内で入力してください。" }),
+  email: z.string().nonempty({ message: "入力してください。" }).min(2, { message: "2文字以上で入力してください。" }).max(300, { message: "300文字以内で入力してください。" }),
+  password: z.string().nonempty({ message: "入力してください。" }).min(2, { message: "2文字以上で入力してください。" }).max(100, { message: "100文字以内で入力してください。" }),
+  displayName: z.string().nonempty({ message: "入力してください。" }).min(2, { message: "2文字以上で入力してください。" }).max(10, { message: "10文字以内で入力してください。" }),
 })
 
-const SignInUpForm = ({registerFlag}: {registerFlag: boolean}) => {
+const SignUpForm = () => {
   const router = useRouter()
+  const [ isDisabled, setIsDisabled ] = useState(false)
 
   useEffect(() => {
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -41,22 +42,8 @@ const SignInUpForm = ({registerFlag}: {registerFlag: boolean}) => {
     }
   })
 
-  const signInWithEmail = async (item: z.infer<typeof formSchema>) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: item.email,
-      password: item.password,
-    })
-
-    if(data.user === null) {
-      toast("登録のないユーザーです")
-    }
-
-    if(error) {
-      toast("エラー")
-    }
-  }
-
   async function signUpNewUser(item: z.infer<typeof formSchema>) {
+    setIsDisabled(true)
     const { data, error } = await supabase.auth.signUp({
       email: item.email,
       password: item.password,
@@ -67,12 +54,15 @@ const SignInUpForm = ({registerFlag}: {registerFlag: boolean}) => {
         emailRedirectTo: `${window.location.origin}/`,
       },
     })
-
+    
     if(error?.status === 422) {
+      setIsDisabled(false)
       toast("既に登録済みの可能性があります。メールを確認し、登録を完了してください")
     } else if(error || data.user === null) {
+      setIsDisabled(false)
       toast("エラー")
     } else {
+      setIsDisabled(false)
       toast("メールを確認し、登録を完了してください")
       form.reset()
     }
@@ -81,8 +71,7 @@ const SignInUpForm = ({registerFlag}: {registerFlag: boolean}) => {
   return (
     <div>
       <FormProvider {...form}>
-        <form onSubmit={registerFlag ? form.handleSubmit(signUpNewUser) : form.handleSubmit(signInWithEmail)} className="space-y-8 h-full flex flex-col justify-center items-center">
-          {registerFlag &&
+        <form onSubmit={form.handleSubmit(signUpNewUser)} className="space-y-8 h-full flex flex-col justify-center items-center">
             <FormField
               control={form.control}
               name="displayName"
@@ -95,7 +84,6 @@ const SignInUpForm = ({registerFlag}: {registerFlag: boolean}) => {
                 </FormItem>
               )}
             />
-          }
           <FormField
             control={form.control}
             name="email"
@@ -120,11 +108,11 @@ const SignInUpForm = ({registerFlag}: {registerFlag: boolean}) => {
               </FormItem>
             )}
           />
-          <Button type="submit" className="cursor-pointer w-full">{registerFlag ? "新規登録する" : "ログインする"}</Button>
+          <Button type="submit" className="cursor-pointer w-full" disabled={isDisabled}>新規登録する</Button>
         </form>
       </FormProvider>
     </div>
   )
 }
 
-export default SignInUpForm
+export default SignUpForm
