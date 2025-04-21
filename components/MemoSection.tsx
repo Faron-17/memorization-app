@@ -35,7 +35,7 @@ const MemoSection = ({ items, total }: { items: Item[], total: number}) => {
       await finishMemorizing({data: memorizedItems})
     } else if(memoType === 'done') {
       if(isTerminated) {
-        await finishMemorizing({data: memorizedItems})
+        await finishMemorizing({data: [...memorizedItems, newItem]})
       } else {
         setOrder(order + 1)
         setMemorizedItems([...memorizedItems, newItem])
@@ -56,6 +56,7 @@ const MemoSection = ({ items, total }: { items: Item[], total: number}) => {
     const isSuccesses = await memorizedItem({memorizedItems: data})
     if(isSuccesses) {
       router.push('./done')
+      router.refresh()
     } else {
       setIsDisabled(false)
       toast('エラー')
