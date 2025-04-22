@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { Trash2 } from 'lucide-react'
-import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import {
   AlertDialog,
@@ -16,8 +15,8 @@ import {
   AlertDialogAction
 } from '@/components/ui/alert-dialog'
 
-import { deleteAllItemsByCategory, deleteItem, fetchItems } from '@/lib/actions/root/item/action'
-import { deleteCategory } from '@/lib/actions/root/category/action'
+import { handleDeleteItem } from '@/lib/handlers/handleDeleteItem'
+import { handleDeleteCategory } from '@/lib/handlers/handleDeleteCategory'
 interface Props {
   triggerText: string,
   title?: string,
@@ -29,46 +28,12 @@ interface Props {
 
 const AlertComponent = ({triggerText, title, description, id='', itemId=''}: Props) => {
   const router = useRouter();
+  const type = id.length > 0 ? 'category' : itemId.length > 0 ? 'item' : '';
   const onSubmit = async () => {
-    if(itemId.length > 0) {
-      const { error } = await deleteItem({ itemId });
-      if(error){
-        toast('エラー')
-      } else {
-        toast('削除しました')
-        router.push(`/my-page/`)
-        router.refresh()
-      }
-    }
-    if(id.length > 0) {
-      const { items } = await fetchItems({id})
-      if(items.length === 0) {
-        const { categoryError } = await deleteCategory({ id });
-        if(categoryError){
-          toast('エラー')
-        } else {
-          toast('削除しました')
-          router.push(`/my-page/`)
-          router.refresh()
-        }
-      } else if(items.length > 0) {
-        const { error } = await deleteAllItemsByCategory({ id })
-
-        if(error) {
-          toast('エラー')
-          return
-        }
-
-        const { categoryError } = await deleteCategory({ id })
-
-        if(categoryError){
-          toast('エラー')
-        } else {
-          toast('削除しました')
-          router.push(`/my-page/`)
-          router.refresh()
-        }
-      }
+    if(type === 'item') {
+      await handleDeleteItem(itemId, router);
+    } else if (type === 'category') {
+      await handleDeleteCategory(id, router);
     }
   }
 
