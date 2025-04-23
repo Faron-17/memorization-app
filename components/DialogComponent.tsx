@@ -26,7 +26,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { cn } from "@/lib/utils"
+import { canPinMore, cn } from "@/lib/utils"
 import { MAX_PINED } from "@/constants"
 import { handleCreateCategory } from "@/lib/handlers/handleCreateCategory"
 import { handleEditCategory } from "@/lib/handlers/handleEditCategory"
@@ -116,22 +116,22 @@ export function DialogComponent({type, triggerText, name, description, pin, id='
               control={form.control}
               name="pin"
               render={({ field }) => (
-              <FormItem className="w-full flex mt-1">
-                <FormControl>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                    disabled={ type ==='edit' && pin ? false : type ==='edit' && pinnedCount < MAX_PINED ? false : pinnedCount >= MAX_PINED}
-                  />
-                </FormControl>
-                <div className="space-y-1 leading-none">
-                  <FormLabel className={cn(type ==='edit' && pin ? "" : pinnedCount >= MAX_PINED ? "text-gray-400" : "")}>
-                    サイドバーにピン留め
-                  </FormLabel>
-                  {
-                    type ==='edit' && pin ? false : type ==='edit' && pinnedCount < MAX_PINED ? "" : pinnedCount >= MAX_PINED && <p className="text-xs mb-3">※ ピン留めできるのは最大{MAX_PINED}件までです</p>
-                  }
-                </div>
+                <FormItem className="w-full flex mt-1">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      disabled={!canPinMore({type, pin, pinnedCount})}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel className={cn(canPinMore({type, pin, pinnedCount}) ? "" : "text-gray-400")}>
+                      サイドバーにピン留め
+                    </FormLabel>
+                    {
+                      canPinMore({type, pin, pinnedCount}) ? "" : <p className="text-xs mb-3">※ ピン留めできるのは最大{MAX_PINED}件までです</p>
+                    }
+                  </div>
                 </FormItem>
               )}
             />
