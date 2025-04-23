@@ -5,10 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { PenLine, Plus } from 'lucide-react'
-import { useRouter, usePathname } from "next/navigation"
-import { toast } from "sonner"
-
-import { createCategory, updateCategory } from "@/lib/actions/root/category/action"
+import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -29,9 +26,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { supabase } from "@/lib/supabase/client"
 import { cn } from "@/lib/utils"
 import { MAX_PINED } from "@/constants"
+import { handleCreateCategory } from "@/lib/handlers/handleCreateCategory"
+import { handleEditCategory } from "@/lib/handlers/handleEditCategory"
 
 interface Props {
   type: 'create' | 'edit',
@@ -53,7 +51,6 @@ export function DialogComponent({type, triggerText, name, description, pin, id='
   const [open, setOpen] = useState(false);
   const [ isDisabled, setIsDisabled ] = useState(false)
   const router = useRouter();
-  const pathname = usePathname();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -73,41 +70,14 @@ export function DialogComponent({type, triggerText, name, description, pin, id='
     setIsDisabled(true)
     form.reset()
     if(type === 'create') {
-      const { data: userData, error: userError } = await supabase.auth.getUser()
-      if(userError || userData === null) {
-        setIsDisabled(false)
-        toast(`エラー`)
-        return
-      }
-
-      const { error } = await createCategory({item: Object.assign(item, {"user_id": userData.user.id })})
-
-      if(error) {
-        setIsDisabled(false)
-        toast(`エラー`)
-      } else {
-        form.reset()
-        setIsDisabled(false)
-        setOpen(false)
-        toast(`${item.name}を作成しました`)
-        router.refresh()
-      }
-
+      await handleCreateCategory({item, router})
     } else if(type === 'edit') {
-      const { error } = await updateCategory({id, item})
-      if(error) {
-        setIsDisabled(false)
-        toast(`エラー`)
-      } else {
-        form.reset({pin: item.pin, name: item.name})
-        setIsDisabled(false)
-        setOpen(false)
-        toast(`${item.name}を更新しました`)
-        router.push(pathname)
-        router.refresh()
-      }
+      await handleEditCategory({ id, item, router, form })
     }
+    setIsDisabled(false)
+    setOpen(false)
   }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
