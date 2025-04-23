@@ -3,17 +3,16 @@
 import React, { useEffect, useState } from 'react'
 import { Lightbulb, BookOpen, CircleX } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import rehypeSanitize from 'rehype-sanitize'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 import { cn } from '@/lib/utils'
-import { Item } from '@/lib/definitions'
-import { memorizedItem } from '@/lib/actions/root/item/action'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import rehypeSanitize from 'rehype-sanitize'
-import { toast } from 'sonner'
+import { Item, MemoType } from '@/lib/definitions'
+import { handleMemorized } from '@/lib/handlers/handleMemorized'
 
 const MemoSection = ({ items, total }: { items: Item[], total: number}) => {
   const [ isDisabled, setIsDisabled ] = useState(false)
@@ -27,39 +26,17 @@ const MemoSection = ({ items, total }: { items: Item[], total: number}) => {
     setIsVisibleAnswer(true)
   }, [order]);
 
-  const handleOnClick = async ({ isTerminated, memoType } : { isTerminated: boolean, memoType: "pause" | "done" | "tomorrow" }) => {
+  const handleOnClick = async ({ isTerminated, memoType } : { isTerminated: boolean, memoType: MemoType }) => {
     const newItem = { id: items[order].id, count: items[order].count + 1 }
+    const data = memoType === 'done' ? [...memorizedItems, newItem] : memorizedItems
 
-    if(memoType === 'pause') {
-      if(memorizedItems.length === 0) router.push('./done')
-      await finishMemorizing({data: memorizedItems})
-    } else if(memoType === 'done') {
-      if(isTerminated) {
-        await finishMemorizing({data: [...memorizedItems, newItem]})
-      } else {
-        setOrder(order + 1)
-        setMemorizedItems([...memorizedItems, newItem])
-      }
-    } else if(memoType === 'tomorrow') {
-      if(isTerminated) {
-        if(memorizedItems.length === 0) router.push('./done')
-        await finishMemorizing({data: [...memorizedItems]})
-      } else {
-        setOrder(order + 1)
-        setMemorizedItems([...memorizedItems])
-      }
-    }
-  }
-
-  const finishMemorizing = async ({ data }: { data: Pick<Item, "id" | "count">[] }) => {
-    setIsDisabled(true)
-    const isSuccesses = await memorizedItem({memorizedItems: data})
-    if(isSuccesses) {
-      router.push('./done')
-      router.refresh()
-    } else {
+    if(isTerminated) {
+      setIsDisabled(true)
+      await handleMemorized({ memorizedItems: data, router })
       setIsDisabled(false)
-      toast('エラー')
+    } else {
+      setOrder(order + 1)
+      setMemorizedItems(data)
     }
   }
 
