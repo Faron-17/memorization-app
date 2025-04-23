@@ -17,3 +17,5 @@ export type Item = {
   updated_at: Date,
   memorized_at: Date,
 }
+
+export type MemoType = "pause" | "done" | "tomorrow"
