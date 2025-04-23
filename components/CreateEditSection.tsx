@@ -31,8 +31,8 @@ import {
 } from "@/components/ui/card"
 import { useRouter } from "next/navigation"
 import { Item } from "@/lib/definitions"
-import { createItem, updateItem } from "@/lib/actions/root/item/action"
-import { toast } from "sonner"
+import { handleCreateItem } from "@/lib/handlers/handleCreateItem"
+import { handleEditItem } from "@/lib/handlers/handleEditItem"
 
 const formSchema = z.object({
   title: z.string().min(2, { message: "2文字以上で入力してください。" }).max(300, { message: "300文字以内で入力してください。" }),
@@ -50,12 +50,12 @@ const CreateEditSection = ({id, itemId, item }: {id: string, itemId?: string, it
     {
       title: item.title,
       answer: item.answer,
-    } as Omit<Item, 'id'>
+    }
     :
     {
       title: '',
       answer: '',
-    } as Omit<Item, 'id'>
+    }
   })
   const title = form.watch("title")
   const answer = form.watch("answer")
@@ -63,30 +63,11 @@ const CreateEditSection = ({id, itemId, item }: {id: string, itemId?: string, it
   const onSubmit = async (item: z.infer<typeof formSchema>) => {
     setIsDisabled(true)
     if(type === 'create') {
-      const { error } = await createItem({item, id});
-
-      if(!error) {
-        toast('暗記アイテムを作成しました。')
-        router.push(`/my-page/${id}/browse`)
-        router.refresh()
-      } else {
-        setIsDisabled(false)
-        toast('エラー')
-      }
+      await handleCreateItem({ id, item, router })
+      setIsDisabled(false)
     } else if(type === 'edit') {
-      if(itemId === undefined) {
-        toast('エラー')
-      } else {
-        const { error } = await updateItem({title: item.title, answer: item.answer, itemId});
-        if(!error) {
-          toast('暗記アイテムを編集しました。')
-          router.push(`/my-page/${id}/browse`)
-        } else {
-          setIsDisabled(false)
-          console.log(error)
-          toast('エラー')
-        }
-      }
+      await handleEditItem({ id, itemId, item, router })
+      setIsDisabled(false)
     } 
   }
 
