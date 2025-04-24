@@ -19,11 +19,12 @@ const BrowseSection = ({ items, categoryId }: { items: Item[], categoryId: strin
   const searchParams = useSearchParams();
   const queryCreatedAt = searchParams.get('updatedAt')
   const queryCount = searchParams.get('count')
+  const getTime = (date: Date) => new Date(date).getTime();
   const data = 
-    queryCreatedAt === 'asc' ? items.sort((a, b) => new Date(a.updated_at).getTime() - new Date(b.updated_at).getTime()) : 
-    queryCreatedAt === 'desc' ? items.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()) :
-    queryCount === 'asc' ? items.sort((a, b) => a.count - b.count) : 
-    queryCount === 'desc' ? items.sort((a, b) => b.count - a.count) : items.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
+    queryCreatedAt === 'asc'  ? items.sort((a, b) => getTime(a.updated_at) - getTime(b.updated_at)) : 
+    queryCreatedAt === 'desc' ? items.sort((a, b) => getTime(b.updated_at) - getTime(a.updated_at)) :
+    queryCount     === 'asc'  ? items.sort((a, b) => a.count - b.count) : 
+    queryCount     === 'desc' ? items.sort((a, b) => b.count - a.count) : items.sort((a, b) => getTime(b.updated_at) - getTime(a.updated_at));
 
   return (
     <section className='grid grid-cols-3 gap-6 px-4 pb-4 max-sm:flex'>

@@ -11,7 +11,7 @@ import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/f
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { supabase } from '@/lib/supabase/client'
-import { toast } from 'sonner'
+import { handleSignInWithEmail } from '@/lib/handlers/handleSignInWithEmail'
 
 const formSchema = z.object({
   email: z.string().nonempty({ message: "入力してください。" }).min(2, { message: "2文字以上で入力してください。" }).max(300, { message: "300文字以内で入力してください。" }),
@@ -42,22 +42,8 @@ const SignInForm = () => {
 
   const signInWithEmail = async (item: z.infer<typeof formSchema>) => {
     setIsDisabled(true)
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: item.email,
-      password: item.password,
-    })
-
-    if(data.user === null) {
-      setIsDisabled(false)
-      toast("登録のないユーザーです")
-    } else {
-      setIsDisabled(false)
-    }
-
-    if(error) {
-      setIsDisabled(false)
-      toast("エラー")
-    }
+    await handleSignInWithEmail({item})
+    setIsDisabled(false)
   }
 
   return (

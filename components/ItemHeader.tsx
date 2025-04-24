@@ -13,17 +13,13 @@ const ItemHeader = ({ id }: { id: string }) => {
   const pageType = pathname.split('/').pop()
   const router = useRouter();
   const searchParams = useSearchParams();
-  const queryUpdatedAt = searchParams.get('updatedAt')
-  const queryCount = searchParams.get('count')
 
   const onHandleSort = (sortType: 'updatedAt' | 'count') => {
-    const value = sortType === 'updatedAt' ? queryUpdatedAt : queryCount
-    let query;
-    if(value === null || value === 'desc') {
-      query = new URLSearchParams({ [sortType]: 'asc'}).toString();
-    } else {
-      query = new URLSearchParams({ [sortType]: 'desc'}).toString();
-    }
+    const value = searchParams.get(sortType)
+
+    const createQuery = (type: 'asc' | 'desc') => new URLSearchParams({ [sortType]: type}).toString()
+    const query = value === null || value === 'desc' ? createQuery('asc') : createQuery('desc')
+
     router.push(`/my-page/${id}/browse?${query}`);
   }
 
