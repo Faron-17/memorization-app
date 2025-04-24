@@ -1,3 +1,9 @@
+export type EmailAuth = {
+  email: string,
+  password: string,
+  displayName: string
+}
+
 export type Category = {
   id: string,
   user_id: string,
