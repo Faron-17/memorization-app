@@ -50,7 +50,7 @@ const ItemsListForSmallView = ({ item }: {item: Item}) => {
             </ReactMarkdown>
           </div>
           <DialogFooter>
-            <BrowseCardFooter categoryId={item.category_id} data={[item]} order={0} />
+            <BrowseCardFooter categoryId={item.category_id} data={item} />
           </DialogFooter>
         </DialogContent>
       </Dialog>

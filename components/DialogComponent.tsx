@@ -116,20 +116,21 @@ export function DialogComponent({type, triggerText, name, description, pin, id='
               control={form.control}
               name="pin"
               render={({ field }) => (
-                <FormItem className="w-full flex mt-1">
+                <FormItem className="w-full flex mt-1 items-center">
                   <FormControl>
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
                       disabled={!canPinMore({type, pin, pinnedCount})}
+                      className={cn(canPinMore({type, pin, pinnedCount}) ? "border-gray-600 cursor-pointer" : "text-gray-400")}
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
-                    <FormLabel className={cn(canPinMore({type, pin, pinnedCount}) ? "" : "text-gray-400")}>
+                    <FormLabel className={cn(canPinMore({type, pin, pinnedCount}) ? "cursor-pointer" : "text-gray-400")}>
                       サイドバーにピン留め
                     </FormLabel>
                     {
-                      canPinMore({type, pin, pinnedCount}) ? "" : <p className="text-xs mb-3">※ ピン留めできるのは最大{MAX_PINED}件までです</p>
+                      canPinMore({type, pin, pinnedCount}) ? "" : <p className="text-xs">※ ピン留めできるのは最大{MAX_PINED}件までです</p>
                     }
                   </div>
                 </FormItem>

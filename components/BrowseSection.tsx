@@ -69,7 +69,7 @@ const BrowseSection = ({ items, categoryId }: { items: Item[], categoryId: strin
               </ReactMarkdown>
             </div>
           </div>
-          <BrowseCardFooter categoryId={categoryId} data={data} order={order} />
+          <BrowseCardFooter categoryId={categoryId} data={data[order]} />
         </CardContent>
       </Card>
     </section>
