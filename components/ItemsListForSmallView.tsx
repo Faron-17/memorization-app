@@ -21,7 +21,7 @@ const ItemsListForSmallView = ({ item }: {item: Item}) => {
     <div className="hidden max-sm:block">
       <Dialog>
         <DialogTrigger asChild>
-          <Button variant="ghost">
+          <Button variant="ghost" className='w-full flex justify-start'>
             <ReactMarkdown
               remarkPlugins={[remarkGfm]} 
               rehypePlugins={[rehypeSanitize]}

@@ -28,7 +28,7 @@ const BrowseSection = ({ items, categoryId }: { items: Item[], categoryId: strin
 
   return (
     <section className='grid grid-cols-3 gap-6 px-4 pb-4 max-sm:flex'>
-      <div className='h-[calc(100vh-10.5rem)] overflow-y-scroll overflow-x-hidden'>
+      <div className='h-[calc(100vh-10.5rem)] overflow-y-scroll overflow-x-hidden w-full'>
         <ul className='flex flex-col space-y-2 col-span-1 w-full'>
           {data.map((item: Item, index: number) => (
             <li key={index} className=''>
