@@ -22,7 +22,8 @@ const CategoryHeader = async ({id}: {id: string}) => {
       </div>
       <div className='flex gap-4 max-lg:gap-2'>
         <DialogComponent type='edit' triggerText='カテゴリー名編集' name={category.name} id={id} pin={category.pin} description='' pinnedCount={pinnedCategoriesCount} />
-        <AlertComponent triggerText='カテゴリー削除' title='カテゴリー削除' description={`本当に「${category.name}」を削除しますか？カテゴリー内の全ての暗記アイテムも消えます。この操作は元に戻せません。`} id={category.id} />      </div>
+        <AlertComponent triggerText='カテゴリー削除' title='カテゴリー削除' description={`本当に「${category.name}」を削除しますか？カテゴリー内の全ての暗記アイテムも消えます。この操作は元に戻せません。`} id={category.id} />
+      </div>
     </div>
   )
 }

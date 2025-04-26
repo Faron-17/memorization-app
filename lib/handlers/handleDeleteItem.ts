@@ -11,7 +11,6 @@ export const handleDeleteItem = async (itemId: string, router: AppRouterInstance
     toast('エラー');
   } else {
     toast('削除しました');
-    router.push('/my-page/');
     router.refresh();
   }
 }
