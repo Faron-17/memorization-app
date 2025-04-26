@@ -26,7 +26,7 @@ const BrowseCardFooter = ({categoryId, data}: {categoryId: string, data: Item}) 
           <PenLine width={16} height={16}/>
           <span className='ml-2 text-sm font-medium max-lg:hidden'>暗記アイテム編集</span>
         </Link>
-        <AlertComponent triggerText='暗記アイテム削除' title='暗記アイテム削除' description={`本当に「${data.title}」を削除しますか？`} id='' itemId={data.id} />
+        <AlertComponent triggerText='暗記アイテム削除' title='暗記アイテム削除' description={`本当に「${data.title}」を削除しますか？`} itemId={data.id} />
       </div>
     </div>
   )

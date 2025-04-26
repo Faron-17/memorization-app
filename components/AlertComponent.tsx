@@ -28,7 +28,7 @@ interface Props {
 
 const AlertComponent = ({triggerText, title, description, id='', itemId=''}: Props) => {
   const router = useRouter();
-  const type = id.length > 0 ? 'category' : itemId.length > 0 ? 'item' : '';
+  const type = itemId.length > 0 ? 'item' : 'category';
   const onSubmit = async () => {
     if(type === 'item') {
       await handleDeleteItem(itemId, router);
