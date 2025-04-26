@@ -153,4 +153,16 @@
   .mark-down ol {
     @apply list-decimal list-inside;
   }
+
+  .mark-down blockquote {
+    @apply border-l-2 border-gray-300 pl-4 ml-4;
+  }
+
+  .mark-down blockquote {
+    @apply border-l-2 border-gray-300 pl-4 ml-4;
+  }
+
+  .mark-down blockquote blockquote {
+    @apply mt-2;
+  }
 }
