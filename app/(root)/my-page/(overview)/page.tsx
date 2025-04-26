@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { fetchCategories } from '@/lib/actions/root/category/action'
 import { DialogComponent } from '@/components/DialogComponent'
+import { MAX_PINED } from '@/constants';
 
 export const metadata: Metadata = {
   title: 'マイページ',
@@ -25,7 +26,7 @@ const page = async () => {
           <div className='flex flex-col justify-center items-center mt-36'>
             <h2 className='text-3xl font-semibold'>ようこそ、Memorization Appへ</h2>
             <p className='pt-5'>暗記するカテゴリーを追加しましょう</p>
-            <p className='pt-2 mb-8'>サイドバーに最大5つまでピン留め可能です。</p>
+            <p className='pt-2 mb-8'>サイドバーに最大{MAX_PINED}つまでピン留め可能です。</p>
             <DialogComponent type='create' triggerText='カテゴリー登録' description='新規登録するカテゴリー名を入れてください' isHome={true} />
           </div>
           :
