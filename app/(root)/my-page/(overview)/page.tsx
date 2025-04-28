@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { fetchCategories } from '@/lib/actions/root/category/action'
 import { DialogComponent } from '@/components/DialogComponent'
-import { MAX_PINED } from '@/constants';
+import { LINKS, MAX_PINED } from '@/constants';
 
 export const metadata: Metadata = {
   title: 'マイページ',
@@ -38,7 +38,7 @@ const page = async () => {
                   const totalNumber = total.filter((tl) => tl.id === item.id)[0].total
                   return (
                   <li key={item.id}>
-                    <Link href={'/my-page/' + item.id + '/study-now'} className="flex justify-between gap-2 rounded-lg border p-3 text-left text-md transition-all hover:bg-accent cursor-pointer w-full h-12 border-slate-500">
+                    <Link href={LINKS.studynow(item.id)} className="flex justify-between gap-2 rounded-lg border p-3 text-left text-md transition-all hover:bg-accent cursor-pointer w-full h-12 border-slate-500">
                       <span>{item.name}</span>
                       <Badge>
                         {totalNumber}

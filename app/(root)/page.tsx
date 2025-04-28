@@ -13,6 +13,7 @@ import SignInForm from '@/components/SignInForm';
 
 import { supabase } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
+import { LINKS } from '@/constants';
 
 export default function Home() {
   const [session, setSession] = useState<Session | null>(null)
@@ -27,7 +28,7 @@ export default function Home() {
       setSession(session)
 
       if (session) {
-        router.push('/my-page')
+        router.push(LINKS.mypage)
       }
     })
 

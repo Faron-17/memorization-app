@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { supabase } from '@/lib/supabase/client'
 import { handleSignInWithEmail } from '@/lib/handlers/handleSignInWithEmail'
+import { LINKS } from '@/constants'
 
 const formSchema = z.object({
   email: z.string().nonempty({ message: "入力してください。" }).min(2, { message: "2文字以上で入力してください。" }).max(300, { message: "300文字以内で入力してください。" }),
@@ -25,7 +26,7 @@ const SignInForm = () => {
   useEffect(() => {
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session) {
-        router.push('/my-page')
+        router.push(LINKS.mypage)
       }
     })
 

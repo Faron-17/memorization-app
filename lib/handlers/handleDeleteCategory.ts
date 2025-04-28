@@ -2,6 +2,7 @@ import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.share
 import { deleteCategory } from '@/lib/actions/root/category/action'
 import { deleteAllItemsByCategory, fetchItems } from '@/lib/actions/root/item/action'
 import { toast } from 'sonner'
+import { LINKS } from '@/constants';
 
 export const handleDeleteCategory = async (id: string, router: AppRouterInstance) => {
   if (!id) return;
@@ -23,7 +24,7 @@ export const handleDeleteCategory = async (id: string, router: AppRouterInstance
     toast('エラー');
   } else {
     toast('削除しました');
-    router.push('/my-page/');
+    router.push(LINKS.mypage);
     router.refresh();
   }
 }
