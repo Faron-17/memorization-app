@@ -12,6 +12,7 @@ import NoMemoItem from '@/components/NoMemoItem'
 import { fetchItems } from '@/lib/actions/root/item/action'
 import { fetchCategory } from '@/lib/actions/root/category/action'
 import { measure } from '@/lib/utils'
+import { LINKS } from '@/constants';
 
 export const metadata: Metadata = {
   title: '暗記',
@@ -37,7 +38,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
         : total === 0 ?
           <div className='flex flex-col justify-center items-center h-full mb-12'>
             <p>暗記するものがないです。</p>
-            <Link href={`/my-page/${id}/browse`} className='mt-6 cursor-pointer flex items-center justify-center hover:bg-slate-100 px-3 py-2 rounded-lg'>
+            <Link href={LINKS.browse(id)} className='mt-6 cursor-pointer flex items-center justify-center hover:bg-slate-100 px-3 py-2 rounded-lg'>
               <Undo2 />
               <span className='ml-2 text-sm font-medium'>暗記アイテム参照</span>
             </Link>

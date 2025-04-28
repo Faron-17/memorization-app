@@ -7,13 +7,14 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import CheckIcon from '@/app/check.png'
 import SidebarCategories from '@/components/SidebarCategories'
 import SidebarUser from '@/components/SidebarUser'
+import { LINKS } from '@/constants'
 
 const SidebarComponent = () => {
   return (
     <Sidebar variant="inset">
       <SidebarHeader>
         <SidebarMenu>
-          <Link href='/my-page'>
+          <Link href={LINKS.mypage}>
             <SidebarMenuButton className='cursor-pointer py-6'>
               <div className="flex aspect-square items-center justify-center rounded-lg text-sidebar-primary-foreground">
                 <Image src={ CheckIcon } alt='' width={18} height={18} />

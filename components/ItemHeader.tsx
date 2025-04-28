@@ -7,6 +7,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import { LINKS } from '@/constants'
 
 const ItemHeader = ({ id }: { id: string }) => {
   const pathname = usePathname();
@@ -26,11 +27,11 @@ const ItemHeader = ({ id }: { id: string }) => {
   return (
     <div className="w-full flex justify-between py-4 px-4.5">
       <div className='flex space-x-4'>
-        <Link href={`/my-page/${id}/study-now`} className={cn('cursor-pointer flex items-center justify-center hover:bg-gray-100 px-3 py-2 rounded-lg', pageType === 'study-now' && 'bg-gray-200')}>
+        <Link href={LINKS.studynow(id)} className={cn('cursor-pointer flex items-center justify-center hover:bg-gray-100 px-3 py-2 rounded-lg', pageType === 'study-now' && 'bg-gray-200')}>
           <BookOpen width={16} height={16}/>
           <span className='ml-2 text-sm font-medium max-lg:hidden'>暗記</span>
         </Link>
-        <Link href={`/my-page/${id}/browse`} className={cn('cursor-pointer flex items-center justify-center hover:bg-gray-100 px-3 py-2 rounded-lg', pageType === 'browse' && 'bg-gray-200')}>
+        <Link href={LINKS.browse(id)} className={cn('cursor-pointer flex items-center justify-center hover:bg-gray-100 px-3 py-2 rounded-lg', pageType === 'browse' && 'bg-gray-200')}>
           <ListTree width={16} height={16}/>
           <span className='ml-2 text-sm font-medium max-lg:hidden'>参照</span>
         </Link>
@@ -55,7 +56,7 @@ const ItemHeader = ({ id }: { id: string }) => {
       </div>
       { pageType === 'browse' && 
       <div className='flex'>
-        <Link href={`/my-page/${id}/create`} className='cursor-pointer flex items-center justify-center hover:bg-slate-100 px-3 py-2 rounded-lg'>
+        <Link href={LINKS.create(id)} className='cursor-pointer flex items-center justify-center hover:bg-slate-100 px-3 py-2 rounded-lg'>
           <Plus width={16} height={16}/>
           <span className='ml-2 text-sm font-medium max-lg:hidden'>暗記アイテム作成</span>
         </Link>

@@ -12,6 +12,7 @@ import {
 
 import { fetchCategories } from '@/lib/actions/root/category/action'
 import { Category } from '@/lib/definitions'
+import { LINKS } from '@/constants'
 
 const SidebarCategories = async () => {
   const { categories, total, pinnedCategoriesCount } = await fetchCategories();
@@ -28,7 +29,7 @@ const SidebarCategories = async () => {
             return (
               <SidebarMenuItem key={item.id}>
               <SidebarMenuButton asChild>
-                <Link href={'/my-page/' + item.id + '/study-now'} className="flex justify-between">
+                <Link href={LINKS.studynow(item.id)} className="flex justify-between">
                   <span className="flex items-center">
                     <span className="ml-2">{item.name}</span>
                   </span>
