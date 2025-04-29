@@ -7,4 +7,5 @@ export const LINKS = {
   browse: (id: string) => { return `/my-page/${id}/browse` },
   edit: ({categoryId, itemId}: {categoryId: string, itemId: string}) => { return `/my-page/${categoryId}/edit/${itemId}` },
   create: (id: string) => { return `/my-page/${id}/create` },
+  done: (id: string) => { return `/my-page/${id}/done` },
 }
