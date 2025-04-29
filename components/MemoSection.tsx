@@ -32,7 +32,7 @@ const MemoSection = ({ items, total }: { items: Item[], total: number}) => {
 
     if(isTerminated) {
       setIsDisabled(true)
-      await handleMemorized({ memorizedItems: data, router })
+      await handleMemorized({ memorizedItems: data, router, id: items[0].category_id })
       setIsDisabled(false)
     } else {
       setOrder(order + 1)
