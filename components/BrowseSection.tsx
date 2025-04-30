@@ -54,7 +54,7 @@ const BrowseSection = ({ items, categoryId }: { items: Item[], categoryId: strin
               remarkPlugins={[remarkGfm]} 
               rehypePlugins={[rehypeSanitize]}
             >
-              {data[order] ? data[order].title : data[0].title}
+              {data[order].title}
             </ReactMarkdown>
           </CardTitle>
         </CardHeader>
@@ -65,7 +65,7 @@ const BrowseSection = ({ items, categoryId }: { items: Item[], categoryId: strin
                 remarkPlugins={[remarkGfm]} 
                 rehypePlugins={[rehypeSanitize]}
               >
-                {data[order] ? data[order].answer : data[0].answer}
+                {data[order].answer}
               </ReactMarkdown>
             </div>
           </div>
