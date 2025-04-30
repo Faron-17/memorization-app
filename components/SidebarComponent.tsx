@@ -7,9 +7,11 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import CheckIcon from '@/app/check.png'
 import SidebarCategories from '@/components/SidebarCategories'
 import SidebarUser from '@/components/SidebarUser'
+import { fetchCategories } from '@/lib/actions/root/category/action'
 import { LINKS } from '@/constants'
 
-const SidebarComponent = () => {
+const SidebarComponent = async () => {
+  const { categories, total, pinnedCategoriesCount } = await fetchCategories();
   return (
     <Sidebar variant="inset">
       <SidebarHeader>
@@ -27,7 +29,7 @@ const SidebarComponent = () => {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent className='px-2'>
-        <SidebarCategories />
+        <SidebarCategories categories={categories} total={total} pinnedCategoriesCount={pinnedCategoriesCount} />
       </SidebarContent>
       <SidebarFooter>
         <SidebarUser />
