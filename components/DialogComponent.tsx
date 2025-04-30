@@ -27,7 +27,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { canPinMore, cn } from "@/lib/utils"
-import { MAX_PINED } from "@/constants"
+import { ERROR_MESSAGE, MAX_PINED } from "@/constants"
 import { handleCreateCategory } from "@/lib/handlers/handleCreateCategory"
 import { handleEditCategory } from "@/lib/handlers/handleEditCategory"
 
@@ -43,7 +43,7 @@ interface Props {
 }
 
 const formSchema = z.object({
-  name: z.string().min(2, { message: "2文字以上で入力してください。" }).max(10, { message: "10文字以内で入力してください。" }),
+  name: z.string().min(2, { message: ERROR_MESSAGE.min(2) }).max(10, { message: ERROR_MESSAGE.max(10)}),
   pin: z.boolean()
 })
 

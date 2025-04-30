@@ -33,10 +33,11 @@ import { useRouter } from "next/navigation"
 import { Item } from "@/lib/definitions"
 import { handleCreateItem } from "@/lib/handlers/handleCreateItem"
 import { handleEditItem } from "@/lib/handlers/handleEditItem"
+import { ERROR_MESSAGE } from "@/constants"
 
 const formSchema = z.object({
-  title: z.string().min(2, { message: "2文字以上で入力してください。" }).max(300, { message: "300文字以内で入力してください。" }),
-  answer: z.string().min(2, { message: "2文字以上で入力してください。" }).max(10000, { message: "10000文字以内で入力してください。" }),
+  title: z.string().min(2, { message: ERROR_MESSAGE.min(2)}).max(300, { message: ERROR_MESSAGE.max(300) }),
+  answer: z.string().min(2, { message: ERROR_MESSAGE.min(2) }).max(10000, { message: ERROR_MESSAGE.max(10000) }),
 })
 
 const CreateEditSection = ({id, itemId, item }: {id: string, itemId?: string, item?: Pick<Item, 'title' | 'answer'>}) => {

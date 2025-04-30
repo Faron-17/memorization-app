@@ -9,3 +9,9 @@ export const LINKS = {
   create: (id: string) => { return `/my-page/${id}/create` },
   done: (id: string) => { return `/my-page/${id}/done` },
 }
+
+export const ERROR_MESSAGE = {
+  nonempty: "入力してください。",
+  min: (count: number) => { return `${count}文字以上で入力してください。` },
+  max: (count: number) => { return `${count}文字以内で入力してください。` }
+}
