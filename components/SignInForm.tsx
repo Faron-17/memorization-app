@@ -12,11 +12,11 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { supabase } from '@/lib/supabase/client'
 import { handleSignInWithEmail } from '@/lib/handlers/handleSignInWithEmail'
-import { LINKS } from '@/constants'
+import { ERROR_MESSAGE, LINKS } from '@/constants'
 
 const formSchema = z.object({
-  email: z.string().nonempty({ message: "入力してください。" }).min(2, { message: "2文字以上で入力してください。" }).max(300, { message: "300文字以内で入力してください。" }),
-  password: z.string().nonempty({ message: "入力してください。" }).min(2, { message: "2文字以上で入力してください。" }).max(100, { message: "100文字以内で入力してください。" }),
+  email: z.string().nonempty({ message: ERROR_MESSAGE.nonempty}).min(2, { message: ERROR_MESSAGE.min(2) }).max(300, { message: ERROR_MESSAGE.max(300) }),
+  password: z.string().nonempty({ message: ERROR_MESSAGE.nonempty }).min(2, { message: ERROR_MESSAGE.min(2) }).max(100, { message: ERROR_MESSAGE.max(100) }),
 })
 
 const SignInForm = () => {

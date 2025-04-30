@@ -21,7 +21,7 @@ const ItemHeader = ({ id }: { id: string }) => {
     const createQuery = (type: 'asc' | 'desc') => new URLSearchParams({ [sortType]: type}).toString()
     const query = value === null || value === 'desc' ? createQuery('asc') : createQuery('desc')
 
-    router.push(`/my-page/${id}/browse?${query}`);
+    router.push(`${LINKS.browse(id)}?${query}`)
   }
 
   return (
