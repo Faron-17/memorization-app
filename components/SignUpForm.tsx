@@ -45,8 +45,11 @@ const SignUpForm = () => {
 
   async function signUpNewUser(item: z.infer<typeof formSchema>) {
     setIsDisabled(true)
-    await handleSignUpWithEmail({item, form})
-    setIsDisabled(false)
+    try {
+      return await handleSignUpWithEmail({item, form})
+    } finally {
+      setIsDisabled(false)
+    }
   }
 
   return (

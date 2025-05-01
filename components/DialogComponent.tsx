@@ -69,13 +69,15 @@ export function DialogComponent({type, triggerText, name, description, pin, id='
   const onSubmit = async (item: z.infer<typeof formSchema>) => {
     setIsDisabled(true)
     form.reset()
-    if(type === 'create') {
-      await handleCreateCategory({item, router})
-    } else if(type === 'edit') {
-      await handleEditCategory({ id, item, router, form })
+    try {
+      if(type === 'create') return await handleCreateCategory({item, router})
+      if(type === 'edit') return await handleEditCategory({ id, item, router, form })
+
+      return
+    } finally {
+      setIsDisabled(false)
+      setOpen(false)
     }
-    setIsDisabled(false)
-    setOpen(false)
   }
 
   return (
