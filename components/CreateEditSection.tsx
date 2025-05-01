@@ -63,13 +63,15 @@ const CreateEditSection = ({id, itemId, item }: {id: string, itemId?: string, it
  
   const onSubmit = async (item: z.infer<typeof formSchema>) => {
     setIsDisabled(true)
-    if(type === 'create') {
-      await handleCreateItem({ id, item, router })
+
+    try {
+      if(type === 'create') return await handleCreateItem({ id, item, router })
+      if(type === 'edit') return await handleEditItem({ id, itemId, item, router })
+
+      return
+    } catch {
       setIsDisabled(false)
-    } else if(type === 'edit') {
-      await handleEditItem({ id, itemId, item, router })
-      setIsDisabled(false)
-    } 
+    }
   }
 
   return (

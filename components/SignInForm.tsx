@@ -43,8 +43,11 @@ const SignInForm = () => {
 
   const signInWithEmail = async (item: z.infer<typeof formSchema>) => {
     setIsDisabled(true)
-    await handleSignInWithEmail({item})
-    setIsDisabled(false)
+    try {
+      return await handleSignInWithEmail({item})
+    } catch {
+      setIsDisabled(false)
+    }
   }
 
   return (
