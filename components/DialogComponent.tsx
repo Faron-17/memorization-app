@@ -1,8 +1,6 @@
 'use client'
 
 import { useState } from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { PenLine, Plus } from 'lucide-react'
 import { useRouter } from "next/navigation"
@@ -27,9 +25,11 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { canPinMore, cn } from "@/lib/utils"
-import { ERROR_MESSAGE, MAX_PINED } from "@/constants"
+import { MAX_PINED } from "@/constants"
 import { handleCreateCategory } from "@/lib/handlers/handleCreateCategory"
 import { handleEditCategory } from "@/lib/handlers/handleEditCategory"
+import { formSchemaCategory } from "@/lib/validation"
+import { useFormCategory } from "@/hooks/use-form-category"
 
 interface Props {
   type: 'create' | 'edit',
@@ -42,31 +42,14 @@ interface Props {
   pinnedCount?: number,
 }
 
-const formSchema = z.object({
-  name: z.string().min(2, { message: ERROR_MESSAGE.min(2) }).max(10, { message: ERROR_MESSAGE.max(10)}),
-  pin: z.boolean()
-})
-
 export function DialogComponent({type, triggerText, name, description, pin, id='', isHome=false, pinnedCount=0}: Props) {
   const [open, setOpen] = useState(false);
   const [ isDisabled, setIsDisabled ] = useState(false)
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: type === 'create' ? 
-    {
-      name: '',
-      pin: false,
-    }
-    :
-    {
-      name: name,
-      pin: pin,
-    }
-  })
+  const form = useFormCategory({type, name, pin})
 
-  const onSubmit = async (item: z.infer<typeof formSchema>) => {
+  const onSubmit = async (item: z.infer<typeof formSchemaCategory>) => {
     setIsDisabled(true)
     form.reset()
     try {

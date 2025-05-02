@@ -3,8 +3,7 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { z } from 'zod'
-import { FormProvider, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { FormProvider } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 
 import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
@@ -12,12 +11,9 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { supabase } from '@/lib/supabase/client'
 import { handleSignInWithEmail } from '@/lib/handlers/handleSignInWithEmail'
-import { ERROR_MESSAGE, LINKS } from '@/constants'
-
-const formSchema = z.object({
-  email: z.string().nonempty({ message: ERROR_MESSAGE.nonempty}).min(2, { message: ERROR_MESSAGE.min(2) }).max(300, { message: ERROR_MESSAGE.max(300) }),
-  password: z.string().nonempty({ message: ERROR_MESSAGE.nonempty }).min(2, { message: ERROR_MESSAGE.min(2) }).max(100, { message: ERROR_MESSAGE.max(100) }),
-})
+import { LINKS } from '@/constants'
+import { useFormSignin } from '@/hooks/use-form-signin'
+import { formSchemaSignIn } from '@/lib/validation'
 
 const SignInForm = () => {
   const router = useRouter()
@@ -33,15 +29,9 @@ const SignInForm = () => {
     return () => listener.subscription.unsubscribe()
   }, [router])
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: '',
-      password: '',
-    }
-  })
+  const form = useFormSignin()
 
-  const signInWithEmail = async (item: z.infer<typeof formSchema>) => {
+  const signInWithEmail = async (item: z.infer<typeof formSchemaSignIn>) => {
     setIsDisabled(true)
     try {
       return await handleSignInWithEmail({item})
