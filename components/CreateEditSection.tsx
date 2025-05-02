@@ -1,7 +1,5 @@
 "use client"
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { useState } from "react"
 
@@ -33,35 +31,21 @@ import { useRouter } from "next/navigation"
 import { Item } from "@/lib/definitions"
 import { handleCreateItem } from "@/lib/handlers/handleCreateItem"
 import { handleEditItem } from "@/lib/handlers/handleEditItem"
-import { ERROR_MESSAGE } from "@/constants"
+import { useFormItem } from "@/hooks/use-form-item"
+import { formSchemaItem } from "@/lib/validation"
 
-const formSchema = z.object({
-  title: z.string().min(2, { message: ERROR_MESSAGE.min(2)}).max(300, { message: ERROR_MESSAGE.max(300) }),
-  answer: z.string().min(2, { message: ERROR_MESSAGE.min(2) }).max(10000, { message: ERROR_MESSAGE.max(10000) }),
-})
 
 const CreateEditSection = ({id, itemId, item }: {id: string, itemId?: string, item?: Pick<Item, 'title' | 'answer'>}) => {
   const [ isDisabled, setIsDisabled ] = useState(false)
   const type: 'edit' | 'create' = item ? 'edit': 'create';
 
   const router = useRouter();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: item ? 
-    {
-      title: item.title,
-      answer: item.answer,
-    }
-    :
-    {
-      title: '',
-      answer: '',
-    }
-  })
+  const form = useFormItem(item)
+
   const title = form.watch("title")
   const answer = form.watch("answer")
  
-  const onSubmit = async (item: z.infer<typeof formSchema>) => {
+  const onSubmit = async (item: z.infer<typeof formSchemaItem>) => {
     setIsDisabled(true)
 
     try {
