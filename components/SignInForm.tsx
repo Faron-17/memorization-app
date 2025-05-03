@@ -18,6 +18,7 @@ import { formSchemaSignIn } from '@/lib/validation'
 const SignInForm = () => {
   const router = useRouter()
   const [ isDisabled, setIsDisabled ] = useState(false)
+  const [ errorMessage, setErrorMessage ] = useState("");
 
   useEffect(() => {
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -34,14 +35,22 @@ const SignInForm = () => {
   const signInWithEmail = async (item: z.infer<typeof formSchemaSignIn>) => {
     setIsDisabled(true)
     try {
-      return await handleSignInWithEmail({item})
-    } catch {
+      await handleSignInWithEmail({item})
+    } catch(e: unknown) {
       setIsDisabled(false)
+      if (e instanceof Error) {
+        setErrorMessage(e.message);
+      } else {
+        setErrorMessage("予期せぬエラーが発生しました");
+      }
     }
   }
 
   return (
     <div>
+      {errorMessage.length > 0 && (
+        <div className="text-sm text-red-500 pb-5">{errorMessage}</div>
+      )}
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(signInWithEmail)} className="space-y-8 h-full flex flex-col justify-center items-center">
           <FormField

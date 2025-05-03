@@ -1,4 +1,3 @@
-import { toast } from 'sonner'
 import { UseFormReturn } from 'react-hook-form'
 
 import { supabase } from '@/lib/supabase/client'
@@ -22,11 +21,11 @@ export const handleSignUpWithEmail = async ({item, form}: Props) => {
   })
   
   if(error?.status === 422) {
-    toast("既に登録済みの可能性があります。メールを確認し、登録を完了してください")
+    throw new Error("既に登録済みの可能性があります。メールを確認し、登録を完了してください");
   } else if(error || data.user === null) {
-    toast("エラー")
+    throw new Error("エラー");
   } else {
-    toast("メールを確認し、登録を完了してください")
     form.reset()
+    throw new Error("メールを確認し、登録を完了してください");
   }
 }
