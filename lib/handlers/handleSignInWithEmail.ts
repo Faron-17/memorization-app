@@ -1,4 +1,3 @@
-import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase/client'
 
 export const handleSignInWithEmail = async ({item}: { item: {email: string, password: string} }) => {
@@ -8,9 +7,10 @@ export const handleSignInWithEmail = async ({item}: { item: {email: string, pass
   })
 
   if(data.user === null) {
-    toast("登録のないユーザーです")
+    throw new Error("登録のないユーザーです");
   }
+
   if(error) { 
-    toast("エラー")
+    throw new Error(error.message);
   }
 }

@@ -45,7 +45,7 @@ export default function Home() {
     <main className='flex flex-col justify-center items-center mt-[10%]'>
       <h1 className='text-2xl font-semibold'>Memorization App</h1>
       {!session && 
-        <Card className='w-80 p-10 mt-6'>
+        <Card className='w-80 p-9 mt-6'>
           <CardHeader className='px-0'>
             <CardTitle className='text-center text-lg'>{registerFlag ? "新規登録" : "ログイン"}</CardTitle>
             <CardDescription className='pt-2'>ようこそ！Memorization Appはマークダウンで書ける暗記アプリです</CardDescription>

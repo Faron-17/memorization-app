@@ -18,6 +18,7 @@ import { formSchemaSignUp } from '@/lib/validation'
 const SignUpForm = () => {
   const router = useRouter()
   const [ isDisabled, setIsDisabled ] = useState(false)
+  const [ errorMessage, setErrorMessage ] = useState("");
 
   useEffect(() => {
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -31,10 +32,16 @@ const SignUpForm = () => {
 
   const form = useFormSignup()
 
-  async function signUpNewUser(item: z.infer<typeof formSchemaSignUp>) {
+  const signUpNewUser = async (item: z.infer<typeof formSchemaSignUp>) => {
     setIsDisabled(true)
     try {
-      return await handleSignUpWithEmail({item, form})
+      await handleSignUpWithEmail({item, form})
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        setErrorMessage(e.message);
+      } else {
+        setErrorMessage("予期せぬエラーが発生しました");
+      }
     } finally {
       setIsDisabled(false)
     }
@@ -42,6 +49,9 @@ const SignUpForm = () => {
 
   return (
     <div>
+      {errorMessage.length > 0 && (
+        <div className="text-sm text-red-500 pb-5">{errorMessage}</div>
+      )}
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(signUpNewUser)} className="space-y-8 h-full flex flex-col justify-center items-center">
             <FormField
