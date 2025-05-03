@@ -50,7 +50,7 @@ const MemoSection = ({ items, total }: { items: Item[], total: number}) => {
 
   return (
     <div className='flex justify-center items-center h-full w-full'>
-      <div className={cn('flex-col justify-center items-center', started ? 'hidden' : 'flex')}>
+      <div className={cn('flex-col justify-center items-center -mt-30', started ? 'hidden' : 'flex')}>
         <p className='text-md font-semibold'>{total}件の暗記アイテムがあります。</p>
         <Button className='w-24 cursor-pointer mt-6'onClick={() => setStarted(true)}>暗記開始</Button>
       </div>
