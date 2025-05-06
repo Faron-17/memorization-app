@@ -9,6 +9,7 @@ import SidebarCategories from '@/components/SidebarCategories'
 import SidebarUser from '@/components/SidebarUser'
 import { fetchCategories } from '@/lib/actions/root/category/action'
 import { LINKS } from '@/constants'
+import { ModeToggle } from '@/components/DarkMode'
 
 const SidebarComponent = async () => {
   const { categories, total, pinnedCategoriesCount } = await fetchCategories();
@@ -32,6 +33,7 @@ const SidebarComponent = async () => {
         <SidebarCategories categories={categories} total={total} pinnedCategoriesCount={pinnedCategoriesCount} />
       </SidebarContent>
       <SidebarFooter>
+        <ModeToggle />
         <SidebarUser />
       </SidebarFooter>
     </Sidebar>
