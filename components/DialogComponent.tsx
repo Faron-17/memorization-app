@@ -30,6 +30,8 @@ import { handleCreateCategory } from "@/lib/handlers/handleCreateCategory"
 import { handleEditCategory } from "@/lib/handlers/handleEditCategory"
 import { formSchemaCategory } from "@/lib/validation"
 import { useFormCategory } from "@/hooks/use-form-category"
+import { useIsMobile } from "@/hooks/use-mobile"
+import { useSidebar } from "@/components/ui/sidebar"
 
 interface Props {
   type: 'create' | 'edit',
@@ -46,6 +48,8 @@ export function DialogComponent({type, triggerText, name, description, pin, id='
   const [open, setOpen] = useState(false);
   const [ isDisabled, setIsDisabled ] = useState(false)
   const router = useRouter();
+  const isMobile = useIsMobile()
+  const { setOpenMobile } = useSidebar();
 
   const form = useFormCategory({type, name, pin})
 
@@ -60,20 +64,21 @@ export function DialogComponent({type, triggerText, name, description, pin, id='
     } finally {
       setIsDisabled(false)
       setOpen(false)
+      if(isMobile) setOpenMobile(false)
     }
   }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant={isHome ? "default" : "ghost"} className={cn("cursor-pointer flex justify-center items-center py-2 rounded-lg px-4 max-lg:px-2", !isHome ? 'hover:bg-gray-100': '!pr-5')}>
+        <Button variant={isHome ? "default" : "ghost"} className={cn("cursor-pointer flex justify-center items-center py-2 rounded-lg px-4 max-md:!px-3", !isHome ? 'hover:bg-gray-100': '!pr-5')}>
           {
             type === 'create' ?
             <Plus width={16} height={16} />
             :
             <PenLine width={16} height={16} />
           }
-          <span className="ml-2 text-sm font-medium max-lg:hidden">{triggerText}</span>
+          <span className="ml-2 text-sm font-medium max-md:hidden">{triggerText}</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
