@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton } from '@/components/ui/sidebar'
 
 import CheckIcon from '@/app/check.png'
+import CheckIconDarkMode from '@/app/check-dark-mode.png'
 import SidebarCategories from '@/components/SidebarCategories'
 import SidebarUser from '@/components/SidebarUser'
 import { fetchCategories } from '@/lib/actions/root/category/action'
@@ -20,7 +21,8 @@ const SidebarComponent = async () => {
           <Link href={LINKS.mypage}>
             <SidebarMenuButton className='cursor-pointer py-6'>
               <div className="flex aspect-square items-center justify-center rounded-lg text-sidebar-primary-foreground">
-                <Image src={ CheckIcon } alt='' width={18} height={18} />
+                <Image src={ CheckIcon } alt='' width={18} height={18} className='block dark:hidden' />
+                <Image src={ CheckIconDarkMode } alt='' width={18} height={18} className='hidden dark:block' />
               </div>
               <div className="grid flex-1 text-left text-lg leading-tight">
                 <span className="truncate font-semibold">Memorization App</span>
