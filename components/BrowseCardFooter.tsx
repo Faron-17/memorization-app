@@ -23,7 +23,7 @@ const BrowseCardFooter = ({categoryId, data}: {categoryId: string, data: Item}) 
         <p className='self-center'>更新日: {updated_at}</p>
       </div>
       <div className='flex'>
-        <Link href={LINKS.edit({categoryId: categoryId, itemId: data.id})} className='cursor-pointer flex items-center justify-center hover:bg-slate-100 px-3 py-2 rounded-lg'>
+        <Link href={LINKS.edit({categoryId: categoryId, itemId: data.id})} className='cursor-pointer flex items-center justify-center hover:bg-accent px-3 py-2 rounded-lg'>
           <PenLine width={16} height={16}/>
           <span className='ml-2 text-sm font-medium max-lg:hidden'>暗記アイテム編集</span>
         </Link>

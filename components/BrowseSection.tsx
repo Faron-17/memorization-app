@@ -32,7 +32,7 @@ const BrowseSection = ({ items, categoryId }: { items: Item[], categoryId: strin
         <ul className='flex flex-col space-y-2 col-span-1 w-full'>
           {data.map((item: Item, index: number) => (
             <li key={index} className=''>
-              <Button variant='ghost' onClick={() => setOrder(index)} className={cn('w-full cursor-pointer flex justify-start max-sm:hidden', order === index ? 'bg-gray-100' : '')}>
+              <Button variant='ghost' onClick={() => setOrder(index)} className={cn('w-full cursor-pointer flex justify-start max-sm:hidden', order === index ? 'bg-accent' : '')}>
                 <span className='overflow-hidden text-clip mark-down'>
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm]} 

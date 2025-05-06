@@ -27,25 +27,25 @@ const ItemHeader = ({ id }: { id: string }) => {
   return (
     <div className="w-full flex justify-between py-4 px-4.5">
       <div className='flex space-x-4'>
-        <Link href={LINKS.studynow(id)} className={cn('cursor-pointer flex items-center justify-center hover:bg-gray-100 px-3 py-2 rounded-lg', pageType === 'study-now' && 'bg-gray-200')}>
+        <Link href={LINKS.studynow(id)} className={cn('cursor-pointer flex items-center justify-center hover:bg-accent px-3 py-2 rounded-lg', pageType === 'study-now' && 'bg-gray-200 dark:bg-gray-800')}>
           <BookOpen width={16} height={16}/>
           <span className='ml-2 text-sm font-medium max-lg:hidden'>暗記</span>
         </Link>
-        <Link href={LINKS.browse(id)} className={cn('cursor-pointer flex items-center justify-center hover:bg-gray-100 px-3 py-2 rounded-lg', pageType === 'browse' && 'bg-gray-200')}>
+        <Link href={LINKS.browse(id)} className={cn('cursor-pointer flex items-center justify-center hover:bg-accent px-3 py-2 rounded-lg', pageType === 'browse' && 'bg-gray-200 dark:bg-gray-800')}>
           <ListTree width={16} height={16}/>
           <span className='ml-2 text-sm font-medium max-lg:hidden'>参照</span>
         </Link>
         { pageType === 'browse' && 
           <div className='flex items-end space-x-2'>
             <Button
-              className='cursor-pointer h-6 px-3 py-1 text-sm bg-gray-100'
+              className='cursor-pointer h-6 px-3 py-1 text-sm hover:bg-accent'
               variant="ghost"
               onClick={() => onHandleSort('updatedAt')}
             >
               <Hourglass /><span className='max-lg:hidden'>更新日時でソート</span>
             </Button>
             <Button
-              className='cursor-pointer h-6 px-3 py-1 text-sm bg-gray-100'
+              className='cursor-pointer h-6 px-3 py-1 text-sm hover:bg-accent'
               variant="ghost"
               onClick={() => onHandleSort('count')}
             >
@@ -56,7 +56,7 @@ const ItemHeader = ({ id }: { id: string }) => {
       </div>
       { pageType === 'browse' && 
       <div className='flex'>
-        <Link href={LINKS.create(id)} className='cursor-pointer flex items-center justify-center hover:bg-slate-100 px-3 py-2 rounded-lg'>
+        <Link href={LINKS.create(id)} className='cursor-pointer flex items-center justify-center hover:bg-slate-100 hover:dark:bg-[#1e2939]/50 px-3 py-2 rounded-lg'>
           <Plus width={16} height={16}/>
           <span className='ml-2 text-sm font-medium max-lg:hidden'>暗記アイテム作成</span>
         </Link>
