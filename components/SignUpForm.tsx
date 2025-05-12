@@ -6,14 +6,13 @@ import { z } from 'zod'
 import { FormProvider } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 
-import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { supabase } from '@/lib/supabase/client'
 import { handleSignUpWithEmail } from '@/lib/handlers/handleSignUpWithEmail'
 import { LINKS } from '@/constants'
 import { useFormSignup } from '@/hooks/use-form-signup'
 import { formSchemaSignUp } from '@/lib/validation'
+import FormFieldInput from '@/components/FormFieldInput'
 
 const SignUpForm = () => {
   const router = useRouter()
@@ -53,43 +52,10 @@ const SignUpForm = () => {
         <div className="text-sm text-red-500 pb-5">{errorMessage}</div>
       )}
       <FormProvider {...form}>
-        <form onSubmit={form.handleSubmit(signUpNewUser)} className="space-y-8 h-full flex flex-col justify-center items-center">
-            <FormField
-              control={form.control}
-              name="displayName"
-              render={({ field }) => (
-                <FormItem className="mb-3 w-full">
-                  <FormControl>
-                    <Input placeholder="表示名" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem className="mb-3 w-full">
-                <FormControl>
-                  <Input placeholder="メールアドレス" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem className="mb-3 w-full">
-                <FormControl>
-                  <Input placeholder="パスワード" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        <form onSubmit={form.handleSubmit(signUpNewUser)} className="space-y-4 h-full flex flex-col justify-center items-center">
+          <FormFieldInput control={form.control} name="displayName" placeholder="表示名" />
+          <FormFieldInput control={form.control} name="email" placeholder="メールアドレス" />
+          <FormFieldInput control={form.control} name="password" placeholder="パスワード" />
           <Button type="submit" className="cursor-pointer w-full" disabled={isDisabled}>新規登録する</Button>
         </form>
       </FormProvider>
