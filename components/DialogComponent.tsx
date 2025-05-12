@@ -14,7 +14,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Input } from '@/components/ui/input'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
   Form,
@@ -22,7 +21,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form"
 import { canPinMore, cn } from "@/lib/utils"
 import { MAX_PINED } from "@/constants"
@@ -32,6 +30,7 @@ import { formSchemaCategory } from "@/lib/validation"
 import { useFormCategory } from "@/hooks/use-form-category"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { useSidebar } from "@/components/ui/sidebar"
+import FormFieldInput from '@/components/FormFieldInput'
 
 interface Props {
   type: 'create' | 'edit',
@@ -90,19 +89,8 @@ export function DialogComponent({type, triggerText, name, description, pin, id='
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col items-center space-y-5">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormControl>
-                    <Input placeholder="カテゴリー名" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
+          <FormFieldInput control={form.control} name="name" placeholder="カテゴリー名" />
+          <FormField
               control={form.control}
               name="pin"
               render={({ field }) => (
