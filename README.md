@@ -1,11 +1,11 @@
-![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
-![Next.js](https://img.shields.io/badge/Next.js-15-000000?logo=nextdotjs&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4-06B6D4?logo=tailwindcss&logoColor=white)
-![Vercel](https://img.shields.io/badge/Vercel-Host-000000?logo=vercel&logoColor=white)
-![Supabase](https://img.shields.io/badge/Supabase-Auth-3ECF8E?logo=supabase&logoColor=white)
-![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?logo=supabase&logoColor=white)
-![shadcn/ui](https://img.shields.io/badge/Shadcn-UI-black)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js-15-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-Host-000000?logo=vercel&style=for-the-badge&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-Auth-3ECF8E?logo=supabase&style=for-the-badge&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
+![shadcn/ui](https://img.shields.io/badge/Shadcn-UI-black?style=for-the-badge)
 
 # Memorization App
 
