@@ -26,6 +26,7 @@ import { supabase } from "@/lib/supabase/client"
 import { useState, useEffect } from "react"
 import { Session } from "@supabase/supabase-js"
 import { useRouter } from 'next/navigation'
+import { LINKS } from "@/constants"
 
 const SidebarUser = () => {
   const { isMobile } = useSidebar()
@@ -42,7 +43,7 @@ const SidebarUser = () => {
       setSession(session)
 
       if (!session) {
-        router.push('/')
+        router.push(LINKS.home)
       }
     })
 

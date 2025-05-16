@@ -1,7 +1,5 @@
 "use client"
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { useState } from "react"
 
@@ -31,63 +29,33 @@ import {
 } from "@/components/ui/card"
 import { useRouter } from "next/navigation"
 import { Item } from "@/lib/definitions"
-import { createItem, updateItem } from "@/lib/actions/root/item/action"
-import { toast } from "sonner"
+import { handleCreateItem } from "@/lib/handlers/handleCreateItem"
+import { handleEditItem } from "@/lib/handlers/handleEditItem"
+import { useFormItem } from "@/hooks/use-form-item"
+import { formSchemaItem } from "@/lib/validation"
 
-const formSchema = z.object({
-  title: z.string().min(2).max(300),
-  answer: z.string().min(2).max(10000),
-})
 
 const CreateEditSection = ({id, itemId, item }: {id: string, itemId?: string, item?: Pick<Item, 'title' | 'answer'>}) => {
   const [ isDisabled, setIsDisabled ] = useState(false)
   const type: 'edit' | 'create' = item ? 'edit': 'create';
 
   const router = useRouter();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: item ? 
-    {
-      title: item.title,
-      answer: item.answer,
-    } as Omit<Item, 'id'>
-    :
-    {
-      title: '',
-      answer: '',
-    } as Omit<Item, 'id'>
-  })
+  const form = useFormItem(item)
+
   const title = form.watch("title")
   const answer = form.watch("answer")
  
-  const onSubmit = async (item: z.infer<typeof formSchema>) => {
+  const onSubmit = async (item: z.infer<typeof formSchemaItem>) => {
     setIsDisabled(true)
-    if(type === 'create') {
-      const { error } = await createItem({item, id});
 
-      if(!error) {
-        toast('暗記アイテムを作成しました。')
-        router.push(`/my-page/${id}/browse`)
-        router.refresh()
-      } else {
-        setIsDisabled(false)
-        toast('エラー')
-      }
-    } else if(type === 'edit') {
-      if(itemId === undefined) {
-        toast('エラー')
-      } else {
-        const { error } = await updateItem({title: item.title, answer: item.answer, itemId});
-        if(!error) {
-          toast('暗記アイテムを編集しました。')
-          router.push(`/my-page/${id}/browse`)
-        } else {
-          setIsDisabled(false)
-          console.log(error)
-          toast('エラー')
-        }
-      }
-    } 
+    try {
+      if(type === 'create') return await handleCreateItem({ id, item, router })
+      if(type === 'edit') return await handleEditItem({ id, itemId, item, router })
+
+      return
+    } catch {
+      setIsDisabled(false)
+    }
   }
 
   return (

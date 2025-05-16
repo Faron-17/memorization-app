@@ -122,6 +122,26 @@
     @apply bg-background text-foreground;
   }
 
+  .mark-down h1 {
+    @apply text-4xl;
+  }
+
+  .mark-down h2 {
+    @apply text-3xl;
+  }
+
+  .mark-down h3 {
+    @apply text-2xl;
+  }
+
+  .mark-down h4 {
+    @apply text-xl;
+  }
+
+  .mark-down h5 {
+    @apply text-lg;
+  }
+
   .mark-down hr {
     @apply my-4;
   }
@@ -132,5 +152,17 @@
 
   .mark-down ol {
     @apply list-decimal list-inside;
+  }
+
+  .mark-down blockquote {
+    @apply border-l-2 border-gray-300 pl-4 ml-4;
+  }
+
+  .mark-down blockquote {
+    @apply border-l-2 border-gray-300 pl-4 ml-4;
+  }
+
+  .mark-down blockquote blockquote {
+    @apply mt-2;
   }
 }

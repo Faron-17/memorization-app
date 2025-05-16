@@ -1,7 +1,9 @@
+"use client"
+
 import React from 'react'
 import Link from 'next/link'
 
-import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar'
+import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar'
 import { Badge } from '@/components/ui/badge'
 import { DialogComponent } from '@/components/DialogComponent'
 import {
@@ -10,11 +12,19 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
 
-import { fetchCategories } from '@/lib/actions/root/category/action'
 import { Category } from '@/lib/definitions'
+import { LINKS } from '@/constants'
+interface Props {
+  categories: Category[],
+  total: {
+    id: string;
+    total: number;
+  }[],
+  pinnedCategoriesCount: number
+}
 
-const SidebarCategories = async () => {
-  const { categories, total, pinnedCategoriesCount } = await fetchCategories();
+const SidebarCategories = ({categories, total, pinnedCategoriesCount}: Props) => {
+  const { setOpenMobile } = useSidebar();
   const data = categories.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
   
   return (
@@ -28,7 +38,7 @@ const SidebarCategories = async () => {
             return (
               <SidebarMenuItem key={item.id}>
               <SidebarMenuButton asChild>
-                <Link href={'/my-page/' + item.id + '/study-now'} className="flex justify-between">
+                <Link href={LINKS.studynow(item.id)} className="flex justify-between" onClick={() => setOpenMobile(false)}>
                   <span className="flex items-center">
                     <span className="ml-2">{item.name}</span>
                   </span>

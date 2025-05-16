@@ -1,14 +1,9 @@
 'use client'
 
 import { useState } from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { PenLine, Plus } from 'lucide-react'
-import { useRouter, usePathname } from "next/navigation"
-import { toast } from "sonner"
-
-import { createCategory, updateCategory } from "@/lib/actions/root/category/action"
+import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -29,9 +24,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { supabase } from "@/lib/supabase/client"
-import { cn } from "@/lib/utils"
+import { canPinMore, cn } from "@/lib/utils"
 import { MAX_PINED } from "@/constants"
+import { handleCreateCategory } from "@/lib/handlers/handleCreateCategory"
+import { handleEditCategory } from "@/lib/handlers/handleEditCategory"
+import { formSchemaCategory } from "@/lib/validation"
+import { useFormCategory } from "@/hooks/use-form-category"
+import { useIsMobile } from "@/hooks/use-mobile"
+import { useSidebar } from "@/components/ui/sidebar"
 
 interface Props {
   type: 'create' | 'edit',
@@ -44,81 +44,41 @@ interface Props {
   pinnedCount?: number,
 }
 
-const formSchema = z.object({
-  name: z.string().min(2, { message: "2文字以上で入力してください。" }).max(10, { message: "10文字以内で入力してください。" }),
-  pin: z.boolean()
-})
-
 export function DialogComponent({type, triggerText, name, description, pin, id='', isHome=false, pinnedCount=0}: Props) {
   const [open, setOpen] = useState(false);
   const [ isDisabled, setIsDisabled ] = useState(false)
   const router = useRouter();
-  const pathname = usePathname();
+  const isMobile = useIsMobile()
+  const { setOpenMobile } = useSidebar();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: type === 'create' ? 
-    {
-      name: '',
-      pin: false,
-    }
-    :
-    {
-      name: name,
-      pin: pin,
-    }
-  })
+  const form = useFormCategory({type, name, pin})
 
-  const onSubmit = async (item: z.infer<typeof formSchema>) => {
+  const onSubmit = async (item: z.infer<typeof formSchemaCategory>) => {
     setIsDisabled(true)
     form.reset()
-    if(type === 'create') {
-      const { data: userData, error: userError } = await supabase.auth.getUser()
-      if(userError || userData === null) {
-        setIsDisabled(false)
-        toast(`エラー`)
-        return
-      }
+    try {
+      if(type === 'create') return await handleCreateCategory({item, router})
+      if(type === 'edit') return await handleEditCategory({ id, item, router, form })
 
-      const { error } = await createCategory({item: Object.assign(item, {"user_id": userData.user.id })})
-
-      if(error) {
-        setIsDisabled(false)
-        toast(`エラー`)
-      } else {
-        form.reset()
-        setIsDisabled(false)
-        setOpen(false)
-        toast(`${item.name}を作成しました`)
-        router.refresh()
-      }
-
-    } else if(type === 'edit') {
-      const { error } = await updateCategory({id, item})
-      if(error) {
-        setIsDisabled(false)
-        toast(`エラー`)
-      } else {
-        form.reset({pin: item.pin, name: item.name})
-        setIsDisabled(false)
-        setOpen(false)
-        toast(`${item.name}を更新しました`)
-        router.push(pathname)
-        router.refresh()
-      }
+      return
+    } finally {
+      setIsDisabled(false)
+      setOpen(false)
+      if(isMobile) setOpenMobile(false)
     }
   }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant={isHome ? "default" : "ghost"} className={cn("cursor-pointer flex justify-center items-center py-2 rounded-lg px-4 max-lg:px-2", !isHome ? 'hover:bg-gray-100': '!pr-5')}>
+        <Button variant={isHome ? "default" : "ghost"} className={cn("cursor-pointer flex justify-center items-center py-2 rounded-lg px-4 max-md:!px-3", !isHome ? 'hover:bg-gray-100': '!pr-5')}>
           {
             type === 'create' ?
             <Plus width={16} height={16} />
             :
             <PenLine width={16} height={16} />
           }
-          <span className="ml-2 text-sm font-medium max-lg:hidden">{triggerText}</span>
+          <span className="ml-2 text-sm font-medium max-md:hidden">{triggerText}</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -129,12 +89,12 @@ export function DialogComponent({type, triggerText, name, description, pin, id='
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col items-center space-y-5">
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
-                <FormItem className="mb-3 w-full">
+                <FormItem className="w-full">
                   <FormControl>
                     <Input placeholder="カテゴリー名" {...field} />
                   </FormControl>
@@ -146,22 +106,23 @@ export function DialogComponent({type, triggerText, name, description, pin, id='
               control={form.control}
               name="pin"
               render={({ field }) => (
-              <FormItem className="mb-3 w-full flex mt-5">
-                <FormControl>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                    disabled={type ==='edit' && pinnedCount === MAX_PINED ? false : pinnedCount >= MAX_PINED}
-                  />
-                </FormControl>
-                <div className="space-y-1 leading-none">
-                  <FormLabel className={cn(pinnedCount >= MAX_PINED && "text-gray-400")}>
-                    サイドバーにピン留め
-                  </FormLabel>
-                  {
-                    type ==='edit' && pinnedCount === MAX_PINED ? "" : pinnedCount >= MAX_PINED && <p className="text-xs mb-3">※ ピン留めできるのは最大{MAX_PINED}件までです</p>
-                  }
-                </div>
+                <FormItem className="w-full flex mt-1 items-center">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      disabled={!canPinMore({type, pin, pinnedCount})}
+                      className={cn(canPinMore({type, pin, pinnedCount}) ? "border-gray-600 cursor-pointer" : "text-gray-400")}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel className={cn(canPinMore({type, pin, pinnedCount}) ? "cursor-pointer" : "text-gray-400")}>
+                      サイドバーにピン留め
+                    </FormLabel>
+                    {
+                      canPinMore({type, pin, pinnedCount}) ? "" : <p className="text-xs">※ ピン留めできるのは最大{MAX_PINED}件までです</p>
+                    }
+                  </div>
                 </FormItem>
               )}
             />

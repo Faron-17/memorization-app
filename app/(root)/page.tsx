@@ -8,10 +8,12 @@ import { FcGoogle } from 'react-icons/fc';
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import SignInUpForm from '@/components/SignInUpForm'
+import SignUpForm from '@/components/SignUpForm';
+import SignInForm from '@/components/SignInForm';
 
 import { supabase } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
+import { LINKS } from '@/constants';
 
 export default function Home() {
   const [session, setSession] = useState<Session | null>(null)
@@ -26,7 +28,7 @@ export default function Home() {
       setSession(session)
 
       if (session) {
-        router.push('/my-page')
+        router.push(LINKS.mypage)
       }
     })
 
@@ -43,7 +45,7 @@ export default function Home() {
     <main className='flex flex-col justify-center items-center mt-[10%]'>
       <h1 className='text-2xl font-semibold'>Memorization App</h1>
       {!session && 
-        <Card className='w-80 p-10 mt-6'>
+        <Card className='w-80 p-9 mt-6'>
           <CardHeader className='px-0'>
             <CardTitle className='text-center text-lg'>{registerFlag ? "新規登録" : "ログイン"}</CardTitle>
             <CardDescription className='pt-2'>ようこそ！Memorization Appはマークダウンで書ける暗記アプリです</CardDescription>
@@ -58,7 +60,9 @@ export default function Home() {
           <div className='flex items-center w-full'>
             <Separator className='flex-1' /><p className='px-5'>or</p><Separator className='flex-1' />
           </div>
-          <SignInUpForm registerFlag={registerFlag}/>
+          {
+            registerFlag ? <SignUpForm /> : <SignInForm />
+          } 
           <Button variant='ghost' className={cn('cursor-pointer hover:underline hover:bg-inherit', registerFlag ? 'hidden' : 'block')} onClick={() => setRegisterFlag(true)}>新規登録はこちら</Button>
           <Button variant='ghost' className={cn('cursor-pointer hover:underline hover:bg-inherit', registerFlag ? 'block' : 'hidden')} onClick={() => setRegisterFlag(false)}>ログインはこちら</Button>
         </Card>

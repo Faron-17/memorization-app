@@ -21,7 +21,7 @@ const ItemsListForSmallView = ({ item }: {item: Item}) => {
     <div className="hidden max-sm:block">
       <Dialog>
         <DialogTrigger asChild>
-          <Button variant="ghost">
+          <Button variant="ghost" className='w-full flex justify-start'>
             <ReactMarkdown
               remarkPlugins={[remarkGfm]} 
               rehypePlugins={[rehypeSanitize]}
@@ -30,7 +30,7 @@ const ItemsListForSmallView = ({ item }: {item: Item}) => {
             </ReactMarkdown>
           </Button>
         </DialogTrigger>
-        <DialogContent className="h-[calc(100%-2rem)] overflow-y-scroll flex flex-col justify-center pt-24 px-2.5">
+        <DialogContent className="max-h-[calc(100%-2rem)] h-fit overflow-y-scroll flex flex-col justify-center pt-12 px-2.5">
           <DialogHeader>
             <DialogTitle className='text-left'>
               <ReactMarkdown
@@ -50,7 +50,7 @@ const ItemsListForSmallView = ({ item }: {item: Item}) => {
             </ReactMarkdown>
           </div>
           <DialogFooter>
-            <BrowseCardFooter categoryId={item.category_id} data={[item]} order={0} />
+            <BrowseCardFooter categoryId={item.category_id} data={item} />
           </DialogFooter>
         </DialogContent>
       </Dialog>
