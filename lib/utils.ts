@@ -24,7 +24,7 @@ export function measure(count: number, memorized_at: Date) {
     return memoDate;
   }
 
-  const daysMap = [0, 1, 3, 7];
+  const daysMap = [0, 1, 3, 7, 14, 30, 60, 120, 240, 360]
   if(daysMap[count] === undefined) return false
   return (count === 0 || today > addDays(memorized_at, daysMap[count]))
 }
