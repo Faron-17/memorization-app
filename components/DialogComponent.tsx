@@ -73,7 +73,7 @@ export function DialogComponent({type, triggerText, name, description, pin, id='
         <Button variant={isHome ? "default" : "ghost"} className={cn("cursor-pointer flex justify-center items-center py-2 rounded-lg px-4 max-md:!px-3", !isHome ? 'hover:bg-gray-100': '!pr-5')}>
           {
             type === 'create' ?
-            <Plus width={20} height={20} />
+            <Plus width={24} height={24} />
             :
             <PenLine width={24} height={24} />
           }
